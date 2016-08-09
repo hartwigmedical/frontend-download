@@ -1,0 +1,10 @@
+<div layout="column" layout-fill class="app-container">
+    <section layout="column" flex>
+        <ui-view layout="column" flex></ui-view>
+
+        <md-sidenav md-component-id="drawer"
+                    class="md-sidenav-right md-whiteframe-z2 application-main-drawer">
+            <ui-view name="drawer" class="page-drawer"></ui-view>
+        </md-sidenav>
+    </section>
+</div>

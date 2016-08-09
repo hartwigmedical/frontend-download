@@ -1,0 +1,50 @@
+<runs-list>
+  <md-content class="run-list" layout="column" flex>
+    <md-card>
+      <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+          <span>Runs</span>
+          <div flex></div>
+          <md-button class="md-icon-button" aria-label="search">
+            <md-icon class="mdi mdi-magnify"></md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-data-table-container>
+        <table md-data-table
+              md-row-select="runsList.selected"
+              multiple="true">
+          <thead md-order="runsList.sortExpression">
+            <tr md-row>
+              <th name="Name" order-by="name"></th>
+              <th name="Coverage" md-numeric order-by="coverage"></th>
+              <th name="State" order-by="state" md-desc></th>
+              <th name="actions"></th>
+            </tr>
+          </thead>
+          <tbody md-body>
+            <tr md-row md-select="run" ng-repeat="run in runsList.runsStore.items">
+              <td md-cell>{{run.name}}</td>
+              <td md-cell>{{run.coverage.value}}</td>
+              <td md-cell>{{run.state}}</td>
+              <td md-cell layout="row" layout-align="center center">
+                <md-icon>
+                  <span class="mdi mdi-download"></span>
+                </md-icon>
+                <md-icon>
+                  <span class="mdi mdi-content-copy"></span>
+                </md-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </md-data-table-container>
+
+      <md-data-table-pagination md-limit="runsList.pagination.limit"
+                                md-row-select="[10, 25, 50, 100]"
+                                md-page="runsList.pagination.page"
+                                md-total="{{runsList.pagination.total}}">
+      </md-data-table-pagination>
+    </md-card>
+  </md-content>
+</run-list>

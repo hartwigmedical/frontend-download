@@ -1,0 +1,11 @@
+.idea
+.DS_Store
+.lockfile
+
+bower_components
+node_modules
+
+src_transpiled
+tests_transpiled
+build
+reports
