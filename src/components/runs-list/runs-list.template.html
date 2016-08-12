@@ -4,40 +4,89 @@
       <md-toolbar class="md-table-toolbar md-default">
         <div class="md-toolbar-tools">
           <span>Runs</span>
-          <div flex></div>
-          <md-button class="md-icon-button" aria-label="search">
-            <md-icon class="mdi mdi-magnify"></md-icon>
-          </md-button>
         </div>
       </md-toolbar>
       <md-data-table-container>
+        <div class="filter-toolbar" layout="row" layout-align="start center" ng-if="runsList.selected.length === 0">
+          <span>Between:</span>
+          <md-datepicker ng-model="runsList.startDate" md-placeholder="Enter date"></md-datepicker>
+          <md-datepicker ng-model="runsList.endDate" md-placeholder="Enter date"></md-datepicker>
+          <div flex></div>
+          <div class="search">
+            <md-icon class="mdi mdi-magnify"></md-icon>
+            <input type="search" ng-model="runsList.searchText" ng-model-options="{debounce: 300}" placeholder="Search..." />
+          </div>
+        </div>
+        <div class="multiple-actions" layout="row" layout-align="start center" ng-if="runsList.selected.length > 0">
+          <span>Selected: {{runsList.selected.length}} runs</span>
+          <div flex></div>
+          <md-button ng-click="runsList.downloadSelected($event)">Download selected</md-button>
+          <md-button ng-click="runsList.copySelected($event)">Copy selected</md-button>
+        </div>
         <table md-data-table
               md-row-select="runsList.selected"
-              multiple="true">
+              multiple="true"
+              ng-hide="runsList.searchText && runsList.runsStore.items.length === 0">
           <thead md-order="runsList.sortExpression">
             <tr md-row>
               <th name="Name" order-by="name"></th>
-              <th name="Coverage" md-numeric order-by="coverage"></th>
+              <th name="Create date" order-by="createDate"></th>
+              <!--<th name="Coverage" md-numeric order-by="coverage.value"></th>-->
               <th name="State" order-by="state" md-desc></th>
-              <th name="actions"></th>
+              <th></th>
             </tr>
           </thead>
           <tbody md-body>
             <tr md-row md-select="run" ng-repeat="run in runsList.runsStore.items">
               <td md-cell>{{run.name}}</td>
-              <td md-cell>{{run.coverage.value}}</td>
+              <td md-cell>{{run.createDate | date : format : medium}}</td>
               <td md-cell>{{run.state}}</td>
-              <td md-cell layout="row" layout-align="center center">
-                <md-icon>
-                  <span class="mdi mdi-download"></span>
-                </md-icon>
-                <md-icon>
-                  <span class="mdi mdi-content-copy"></span>
-                </md-icon>
+              <td md-cell class="actions-column">
+                <md-menu md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Download button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-menu-origin><span class="mdi mdi-download"></span></md-icon>
+                  </md-button>
+                  <md-menu-content class="download-menu" width="3">
+                    <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
+                    <md-menu-item ng-show="false"><p></p></md-menu-item>
+                    <md-menu-item layout="column" flex>
+                      <md-checkbox ng-repeat="type in runsList.fileTypes"
+                                   ng-checked="runsList.downloadTypeIsChecked(type)"
+                                   ng-click="runsList.toggleDownloadType($event, type)"
+                                   md-prevent-menu-close
+                                   aria-label="{{type}}">{{type}}</md-checkbox>
+                      <hr />
+                      <a href="#" ng-click="runsList.download($event, run)">DOWNLOAD</a>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+
+                <md-menu md-position-mode="target-right target">
+                  <md-button class="md-icon-button" aria-label="Link button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-menu-origin><span class="mdi mdi-content-copy"></span></md-icon>
+                  </md-button>
+                  <md-menu-content width="6" class="links-menu">
+                    <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
+                    <md-menu-item ng-show="false"><p></p></md-menu-item>
+                    <md-menu-item layout="column" flex>
+                      <textarea rows="5" readonly>Please select which filetypes you want to generate links for first.</textarea>
+                      <div layout="row" class="checkboxes">
+                        <md-checkbox ng-repeat="type in runsList.fileTypes"
+                                   ng-checked="runsList.downloadTypeIsChecked(type)"
+                                   ng-click="runsList.toggleDownloadType($event, type)"
+                                   md-prevent-menu-close
+                                   aria-label="{{type}}">{{type}}</md-checkbox>
+                      </div>
+                      <hr />
+                      <a href="#copy">COPY</a>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
               </td>
             </tr>
           </tbody>
         </table>
+        <md-data-table-toolbar ng-if="runsList.searchText && runsList.runsStore.items.length === 0">No results matching: '{{runsList.searchText}}'</md-data-table-toolbar>
       </md-data-table-container>
 
       <md-data-table-pagination md-limit="runsList.pagination.limit"

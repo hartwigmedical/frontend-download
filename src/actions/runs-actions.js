@@ -16,11 +16,14 @@ export class RunsActions {
     let counter = 1;
     const runs = [];
 
+    const status = ['done', 'in progress'];
+
     while (counter <= 100) {
       runs.push({
         name: `Sample ${counter}`,
-        coverage: { value: 38 },
-        state: 'done'
+        coverage: { value: Math.floor(Math.random() * 100 + 1) },
+        state: status[Math.round(Math.random())],
+        createDate: new Date()
       });
       counter += 1;
     }
