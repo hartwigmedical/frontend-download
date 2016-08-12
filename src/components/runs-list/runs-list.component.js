@@ -126,11 +126,19 @@ export class RunsListComponent {
 
 function CopySelectedDialogController($scope, $mdDialog) {
   $scope.fileTypes = fileTypes;
+
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
 }
 CopySelectedDialogController.$inject = ['$scope', '$mdDialog'];
 
 function DownloadSelectedDialogController($scope, $mdDialog) {
   $scope.fileTypes = fileTypes;
+
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
 }
 
 DownloadSelectedDialogController.$inject = ['$scope', '$mdDialog'];
