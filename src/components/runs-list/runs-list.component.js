@@ -1,4 +1,5 @@
 import angular from 'angular';
+import moment from 'moment';
 
 import {
   Component,
@@ -7,9 +8,6 @@ import {
   PaginatableComponent,
   SearchableComponent
 } from 'anglue/anglue';
-
-const fileTypes = ['BAM', 'VCF', 'Report'];
-
 
 @Component()
 @SortableComponent()
@@ -23,47 +21,76 @@ export class RunsListComponent {
   @Inject() runsStore;
   @Inject() runsActions;
 
-  fileTypes = fileTypes
+  loadingError = false;
 
-  startDate = new Date();
+  today = new Date();
+  startDate = new Date(`01/01/${new Date().getFullYear()}`);
   endDate = new Date();
 
   // Multi select
   selected = [];
 
-  // Individual download types
-  downloadTypes = [];
-
   activate() {
-    this.runsActions.loadRuns();
+    // Set the initial filter
+    this.setFilter();
+
+    this.runsActions.loadRuns().catch(() => {
+      this.loadingError = true;
+    });
+  }
+
+  setFilter() {
+    this.runsActions.changeFilter('date', run => {
+      const createTime = moment(run.createTime);
+      return createTime.isSameOrAfter(this.startDate, 'day') && createTime.isSameOrBefore(this.endDate, 'day');
+    });
   }
 
   download(event, run) {
     event.preventDefault();
 
-    // @TODO implement this
+    this.generateLinks(run).then(links => {
+      startDownloads(links);
+    });
   }
 
-  toggleDownloadType($event, type) {
-    $event.preventDefault();
-
-    const index = this.downloadTypes.indexOf(type);
-
-    if (index === -1) {
-      this.downloadTypes.push(type);
-    } else {
-      this.downloadTypes.splice(index, 1);
-    }
+  canDownloadOrCopy(files) {
+    return files.find(file => {
+      return file.selected;
+    });
   }
 
-  downloadTypeIsChecked(type) {
-    return this.downloadTypes.indexOf(type) > -1;
+  generateLinks(run) {
+    const files = run.files.filter(file => {
+      return file.selected;
+    });
+
+    const promise = this.runsActions.generateDownloadLinks(files);
+
+    promise.then(links => {
+      let linksText = '';
+
+      links.forEach(link => {
+        linksText += `${link}\n\n`;
+      });
+
+      run.linksText = linksText;
+
+      run.links = links;
+    });
+
+    return promise;
   }
 
   // Open the download selected runs dialog
   downloadSelected($event) {
     this.$mdDialog.show({
       controller: DownloadSelectedDialogController,
+      clickOutsideToClose: true,
+      scope: this.$scope,
+      preserveScope: true,
+      parent: angular.element(document.body),
+      targetEvent: $event,
       template: `
         <md-dialog class="download-selected-dialog">
           <md-toolbar>
@@ -79,15 +106,12 @@ export class RunsListComponent {
           </md-toolbar>
           <md-dialog-content>
             <div class="checkboxes" layout="column">
-              <md-checkbox ng-repeat="type in fileTypes" aria-label="{{type}}">{{type}}</md-checkbox>
+              <md-checkbox ng-repeat="(key, value) in fileTypes" ng-model="fileTypes[key]" aria-label="{{key}}">{{key}}</md-checkbox>
             </div>
-            <md-button>DOWNLOAD 12 FILES</md-button>
+            <md-button ng-disabled="!canDownload()" ng-click="download()">DOWNLOAD FILES</md-button>
           </md-dialog-content>
         </md-dialog>
-      `,
-      parent: angular.element(document.body),
-      targetEvent: $event,
-      clickOutsideToClose: true
+      `
     });
   }
 
@@ -95,11 +119,16 @@ export class RunsListComponent {
   copySelected($event) {
     this.$mdDialog.show({
       controller: CopySelectedDialogController,
+      clickOutsideToClose: true,
+      scope: this.$scope,
+      preserveScope: true,
+      parent: angular.element(document.body),
+      targetEvent: $event,
       template: `
         <md-dialog class="copy-selected-dialog">
           <md-toolbar>
             <div class="md-toolbar-tools">
-              <h2>Download URL's selection</h2>
+              <h2>Copy URL's</h2>
               <span flex></span>
               <md-button class="md-icon-button" ng-click="cancel()">
                 <md-icon aria-label="Close dialog">
@@ -109,35 +138,114 @@ export class RunsListComponent {
             </div>
           </md-toolbar>
           <md-dialog-content>
-            <textarea rows="10"></textarea>
+            <textarea rows="10" readonly="true" id="copy-selected-modal-text">{{links}}</textarea>
             <div class="checkboxes" layout="row">
-              <md-checkbox ng-repeat="type in fileTypes" aria-label="{{type}}">{{type}}</md-checkbox>
+              <md-checkbox ng-change="onChange()" ng-repeat="(key, value) in fileTypes" ng-model="fileTypes[key]" aria-label="{{key}}">{{key}}</md-checkbox>
             </div>
-            <md-button>COPY</md-button>
+
+            <md-button ngclipboard data-clipboard-target="#copy-selected-modal-text">COPY</md-button>
           </md-dialog-content>
         </md-dialog>
-      `,
-      parent: angular.element(document.body),
-      targetEvent: $event,
-      clickOutsideToClose: true
+      `
     });
   }
 }
 
+function startDownloads(/*links*/) {
+  alert('Should start downloading files now when integrated with the API'); // eslint-disable-line
+
+  // links.forEach(link => {
+  //   window.open(link);
+  // });
+}
+
+
 function CopySelectedDialogController($scope, $mdDialog) {
-  $scope.fileTypes = fileTypes;
+  $scope.fileTypes = {};
+
+  $scope.links = '';
+
+  // Find the filetypes
+  $scope.runsList.selected.forEach(run => {
+    run.files.forEach(file => {
+      if (!$scope.fileTypes[file.name]) {
+        $scope.fileTypes[file.name] = false;
+      }
+    });
+  });
+
+  $scope.onChange = function() {
+    const files = [];
+
+    $scope.runsList.selected.forEach(run => {
+      run.files.forEach(file => {
+        if ($scope.fileTypes[file.name]) {
+          files.push(file);
+        }
+      });
+    });
+
+
+    $scope.runsList.runsActions.generateDownloadLinks(files)
+      .then(links => {
+        let linksText = '';
+
+        links.forEach(link => {
+          linksText += `${link}\n\n`;
+        });
+
+        $scope.links = linksText;
+      })
+      .catch(() => {
+        // @TODO handle error
+      });
+  };
 
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
 }
+
 CopySelectedDialogController.$inject = ['$scope', '$mdDialog'];
 
 function DownloadSelectedDialogController($scope, $mdDialog) {
-  $scope.fileTypes = fileTypes;
+  $scope.fileTypes = {};
 
+  // Find the filetypes
+  $scope.runsList.selected.forEach(run => {
+    run.files.forEach(file => {
+      if (!$scope.fileTypes[file.name]) {
+        $scope.fileTypes[file.name] = false;
+      }
+    });
+  });
+
+  // Close dialog
   $scope.cancel = function() {
     $mdDialog.cancel();
+  };
+
+  // Download the files
+  $scope.download = function() {
+    $scope.runsList.runsActions.generateDownloadLinks([])
+      .then(links => {
+        startDownloads(links);
+      })
+      .catch(() => {
+        // @TODO handle error
+      });
+  };
+
+  // Checks if any of the checkboxes is checked
+  $scope.canDownload = function() {
+    let selected = false;
+
+    for (const key in $scope.fileTypes) {
+      if ($scope.fileTypes.hasOwnProperty(key) && $scope.fileTypes[key]) {
+        selected = true;
+      }
+    }
+    return selected;
   };
 }
 

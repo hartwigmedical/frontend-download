@@ -9,8 +9,15 @@
       <md-data-table-container>
         <div class="filter-toolbar" layout="row" layout-align="start center" ng-if="runsList.selected.length === 0">
           <span>Between:</span>
-          <md-datepicker ng-model="runsList.startDate" md-placeholder="Enter date"></md-datepicker>
-          <md-datepicker ng-model="runsList.endDate" md-placeholder="Enter date"></md-datepicker>
+          <md-datepicker ng-model="runsList.startDate"
+                         ng-change="runsList.setFilter()"
+                         md-max-date="runsList.endDate"
+                         md-placeholder="Enter date"></md-datepicker>
+          <md-datepicker ng-model="runsList.endDate"
+                         ng-change="runsList.setFilter()"
+                         md-min-date="runsList.startDate"
+                         md-max-date="runsList.today"
+                         md-placeholder="Enter date"></md-datepicker>
           <div flex></div>
           <div class="search">
             <md-icon class="mdi mdi-magnify"></md-icon>
@@ -30,17 +37,16 @@
           <thead md-order="runsList.sortExpression">
             <tr md-row>
               <th name="Name" order-by="name"></th>
-              <th name="Create date" order-by="createDate"></th>
-              <!--<th name="Coverage" md-numeric order-by="coverage.value"></th>-->
-              <th name="State" order-by="state" md-desc></th>
+              <th name="Create date" order-by="createTime"></th>
+              <th name="Status" order-by="statue" md-desc></th>
               <th></th>
             </tr>
           </thead>
           <tbody md-body>
             <tr md-row md-select="run" ng-repeat="run in runsList.runsStore.items">
               <td md-cell>{{run.name}}</td>
-              <td md-cell>{{run.createDate | date : format : medium}}</td>
-              <td md-cell>{{run.state}}</td>
+              <td md-cell>{{run.createTime | date : format : medium}}</td>
+              <td md-cell>{{run.status}}</td>
               <td md-cell class="actions-column">
                 <md-menu md-position-mode="target-right target">
                   <md-button class="md-icon-button" aria-label="Download button" ng-click="$mdOpenMenu($event)">
@@ -50,13 +56,14 @@
                     <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                     <md-menu-item ng-show="false"><p></p></md-menu-item>
                     <md-menu-item layout="column" flex>
-                      <md-checkbox ng-repeat="type in runsList.fileTypes"
-                                   ng-checked="runsList.downloadTypeIsChecked(type)"
-                                   ng-click="runsList.toggleDownloadType($event, type)"
+                      <md-checkbox ng-repeat="file in run.files"
                                    md-prevent-menu-close
-                                   aria-label="{{type}}">{{type}}</md-checkbox>
+                                   ng-model="file.selected"
+                                   aria-label="{{file.name}}">{{file.name}}</md-checkbox>
                       <hr />
-                      <a href="#" ng-click="runsList.download($event, run)">DOWNLOAD</a>
+                      <md-button ng-disabled="!runsList.canDownloadOrCopy(run.files)"
+                                 md-prevent-menu-close
+                                 ng-click="runsList.download($event, run)">DOWNLOAD</md-button>
                     </md-menu-item>
                   </md-menu-content>
                 </md-menu>
@@ -69,16 +76,19 @@
                     <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                     <md-menu-item ng-show="false"><p></p></md-menu-item>
                     <md-menu-item layout="column" flex>
-                      <textarea rows="5" readonly>Please select which filetypes you want to generate links for first.</textarea>
+                      <textarea id="links-area-{{$index}}" rows="5" readonly value="downloadLinks">{{run.linksText}}</textarea>
                       <div layout="row" class="checkboxes">
-                        <md-checkbox ng-repeat="type in runsList.fileTypes"
-                                   ng-checked="runsList.downloadTypeIsChecked(type)"
-                                   ng-click="runsList.toggleDownloadType($event, type)"
-                                   md-prevent-menu-close
-                                   aria-label="{{type}}">{{type}}</md-checkbox>
+                        <md-checkbox ng-repeat="file in run.files"
+                                     ng-change="runsList.generateLinks(run)"
+                                     md-prevent-menu-close
+                                     ng-model="file.selected"
+                                     aria-label="{{file.name}}">{{file.name}}</md-checkbox>
                       </div>
                       <hr />
-                      <a href="#copy">COPY</a>
+                      <md-button ng-disabled="!runsList.canDownloadOrCopy(run.files)"
+                                 md-prevent-menu-close
+                                 ngclipboard
+                                 data-clipboard-target="#links-area-{{$index}}">COPY</md-button>
                     </md-menu-item>
                   </md-menu-content>
                 </md-menu>
@@ -87,6 +97,7 @@
           </tbody>
         </table>
         <md-data-table-toolbar ng-if="runsList.searchText && runsList.runsStore.items.length === 0">No results matching: '{{runsList.searchText}}'</md-data-table-toolbar>
+        <md-data-table-toolbar ng-if="runsList.loadingError">An error occured, try again later....</md-data-table-toolbar>
       </md-data-table-container>
 
       <md-data-table-pagination md-limit="runsList.pagination.limit"

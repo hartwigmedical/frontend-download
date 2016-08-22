@@ -1,3 +1,5 @@
+import connectPortal from 'connect-portal-component';
+
 // All the Angular packages that we use in our app
 import angular from 'angular';
 import 'angular-aria';
@@ -8,6 +10,9 @@ import 'angular-messages';
 import 'angular-sanitize';
 import 'angular-ui-router';
 import 'angular-md-data-table';
+import './directives/clipboard';
+
+import moment from 'moment';
 
 import { Application } from 'anglue/anglue';
 import 'luxyflux/ng-luxyflux';
@@ -38,6 +43,7 @@ import { RunsActions } from './actions/runs-actions';
     'ngAria',
     'ngSanitize',
     'md.data.table',
+    'ngclipboard',
     resourcesModule.name
   ],
   actions: [
@@ -58,14 +64,33 @@ export default class Main {
     configureMaterial(appModule);
 
     // Configure the Angular providers
-    appModule.config([
-      '$compileProvider', '$httpProvider', '$resourceProvider', function ($compileProvider, $httpProvider, $resourceProvider) {
-        $compileProvider.debugInfoEnabled(false);
-        $httpProvider.defaults.withCredentials = true;
-        $resourceProvider.defaults.stripTrailingSlashes = true;
-      }]);
+    appModule.config(['$compileProvider', '$httpProvider', '$resourceProvider', '$mdDateLocaleProvider',
+    function ($compileProvider, $httpProvider, $resourceProvider, $mdDateLocaleProvider) {
+      $compileProvider.debugInfoEnabled(false);
+      $httpProvider.defaults.withCredentials = true;
+      $resourceProvider.defaults.stripTrailingSlashes = true;
+
+      // Make the angular material date format correct
+      $mdDateLocaleProvider.formatDate = dateString => {
+        const date = moment(dateString);
+        return date.isValid() ? date.format('DD/MM/YYYY') : '';
+      };
+    }]);
 
     angular.element(document).ready(function () {
+      connectPortal.initialize(document.getElementById('region-portal'), {
+        menu: [{
+          title: 'HMF Downloads',
+          items: [{
+            title: 'Downloads',
+            hash: 'runs-list'
+          }]
+        }],
+        theme: {
+          primaryColor: '#337ab7'
+        }
+      });
+
       angular.bootstrap(config.appEl, [appModule.name], {
         strictDi: true
       });
