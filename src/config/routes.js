@@ -6,7 +6,7 @@ export default {
 
   'downloads': {
     url: '/',
-    templateUrl: `${srcPath}/downloads.html`,
+    templateUrl: `${srcPath}/hmfdownloads.html`,
     abstract: true
   },
 
