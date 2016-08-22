@@ -110,6 +110,14 @@ module.exports = function (grunt) {
               'angular-material-data-table/dist/md-data-table.min.css'
             ],
             flatten: false
+          }, {
+            expand: true,
+            dest: 'build/fonts',
+            cwd: 'bower_components',
+            src: [
+              'mdi/**/*'
+            ],
+            flatten: false
           }]
       },
       build: {
