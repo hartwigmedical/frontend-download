@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = function (grunt) {
-  var appName = 'downloads';
+  var appName = 'hmfdownloads';
   var buildNumber = grunt.option('buildNumber') || 'dev'; //build nr or dev
 
   // Prints the time each grunt task took
