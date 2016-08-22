@@ -87,7 +87,7 @@ export default class Main {
           }]
         }],
         theme: {
-          primaryColor: '#337ab7'
+          primaryColor: '#284C99'
         }
       });
 
