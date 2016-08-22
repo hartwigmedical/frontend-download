@@ -8,7 +8,9 @@ import {
 
 @Store()
 @EntityStore()
-@SortableStore()
+@SortableStore({
+  initial: '-createTime'
+})
 @FilterableStore()
 @PaginatableStore({
   initialLimit: 10
