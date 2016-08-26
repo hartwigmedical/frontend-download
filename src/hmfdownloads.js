@@ -32,6 +32,7 @@ import { RunsListComponent } from './components/runs-list/runs-list.component';
 import { RunsStore } from './stores/runs-store';
 
 // Application Flux ActionCreators
+import { DownloadActions } from './actions/download-actions';
 import { RunsActions } from './actions/runs-actions';
 
 @Application({
@@ -47,6 +48,7 @@ import { RunsActions } from './actions/runs-actions';
     resourcesModule.name
   ],
   actions: [
+    DownloadActions,
     RunsActions
   ],
   components: [
@@ -76,6 +78,17 @@ export default class Main {
         return date.isValid() ? date.format('DD/MM/YYYY') : '';
       };
     }]);
+
+    // Configure the prefix for all the resources in the app:
+    if (!config.apiEndpoint) {
+      if (window.location.hostname.indexOf('acc.') > -1 || window.location.hostname.indexOf('localhost.') > -1) {
+        config.apiEndpoint = 'https://api.acc.schubergphilis.com';
+      } else {
+        config.apiEndpoint = 'https://api.schubergphilis.com';
+      }
+    }
+    appModule.value('apiEndpoint', config.apiEndpoint);
+
 
     angular.element(document).ready(function () {
       connectPortal.initialize(document.getElementById('region-portal'), {

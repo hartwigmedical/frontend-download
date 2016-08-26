@@ -43,13 +43,17 @@
             </tr>
           </thead>
           <tbody md-body>
-            <tr md-row md-select="run" ng-repeat="run in runsList.runsStore.items">
+            <tr md-row md-select="run"
+                md-disable-select="!run.files || run.files.length === 0"
+                ng-repeat="run in runsList.runsStore.items">
               <td md-cell>{{run.name}}</td>
               <td md-cell>{{run.createTime | date : format : medium}}</td>
               <td md-cell>{{run.status}}</td>
               <td md-cell class="actions-column">
-                <md-menu md-position-mode="target-right target">
-                  <md-button class="md-icon-button" aria-label="Download button" ng-click="$mdOpenMenu($event)">
+                <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
+                  <md-button class="md-icon-button"
+                             aria-label="Download button"
+                             ng-click="$mdOpenMenu($event)">
                     <md-icon md-menu-origin><span class="mdi mdi-download"></span></md-icon>
                   </md-button>
                   <md-menu-content class="download-menu" width="3">
@@ -68,8 +72,10 @@
                   </md-menu-content>
                 </md-menu>
 
-                <md-menu md-position-mode="target-right target">
-                  <md-button class="md-icon-button" aria-label="Link button" ng-click="$mdOpenMenu($event)">
+                <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
+                  <md-button class="md-icon-button"
+                             aria-label="Link button"
+                             ng-click="$mdOpenMenu($event)">
                     <md-icon md-menu-origin><span class="mdi mdi-content-copy"></span></md-icon>
                   </md-button>
                   <md-menu-content width="6" class="links-menu">
