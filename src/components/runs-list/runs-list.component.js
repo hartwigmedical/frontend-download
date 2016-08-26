@@ -20,6 +20,7 @@ export class RunsListComponent {
   @Inject() $mdDialog;
   @Inject() runsStore;
   @Inject() runsActions;
+  @Inject() downloadActions;
 
   loadingError = false;
 
@@ -34,7 +35,7 @@ export class RunsListComponent {
     // Set the initial filter
     this.setFilter();
 
-    this.runsActions.loadRuns().catch(() => {
+    this.runsActions.load().catch(() => {
       this.loadingError = true;
     });
   }
@@ -65,13 +66,13 @@ export class RunsListComponent {
       return file.selected;
     });
 
-    const promise = this.runsActions.generateDownloadLinks(files);
+    const promise = this.downloadActions.generateDownloadLinks(files);
 
     promise.then(links => {
       let linksText = '';
 
       links.forEach(link => {
-        linksText += `${link}\n\n`;
+        linksText += `${link.fileURL}\n\n`;
       });
 
       run.linksText = linksText;
@@ -151,12 +152,10 @@ export class RunsListComponent {
   }
 }
 
-function startDownloads(/*links*/) {
-  alert('Should start downloading files now when integrated with the API'); // eslint-disable-line
-
-  // links.forEach(link => {
-  //   window.open(link);
-  // });
+function startDownloads(links) {
+  links.forEach(link => {
+    window.open(link.fileURL);
+  });
 }
 
 
@@ -186,12 +185,12 @@ function CopySelectedDialogController($scope, $mdDialog) {
     });
 
 
-    $scope.runsList.runsActions.generateDownloadLinks(files)
+    $scope.runsList.downloadActions.generateDownloadLinks(files)
       .then(links => {
         let linksText = '';
 
         links.forEach(link => {
-          linksText += `${link}\n\n`;
+          linksText += `${link.fileURL}\n\n`;
         });
 
         $scope.links = linksText;
@@ -227,7 +226,19 @@ function DownloadSelectedDialogController($scope, $mdDialog) {
 
   // Download the files
   $scope.download = function() {
-    $scope.runsList.runsActions.generateDownloadLinks([])
+    const files = [];
+
+    $scope.runsList.selected.forEach(run => {
+      if (run.files && run.files.length > 0) {
+        run.files.forEach(file => {
+          if ($scope.fileTypes[file.name]) {
+            files.push(file);
+          }
+        });
+      }
+    });
+
+    $scope.runsList.downloadActions.generateDownloadLinks(files)
       .then(links => {
         startDownloads(links);
       })
