@@ -175,7 +175,7 @@ module.exports = function (grunt) {
       },
       prod: {
         options: {
-          rootpath: '/'
+          rootpath: '/hmfdownloads'
         },
         files: {
           'build/<%= appName %>.<%= buildNumber %>.css': 'src/<%= appName %>.less'
