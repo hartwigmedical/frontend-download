@@ -14,16 +14,14 @@ angular.module('ngclipboard', []).directive('ngclipboard', function() {
       clipboard.on('success', function(evnt) {
         scope.$apply(function () {
           scope.ngclipboardSuccess({
-            evnt
+            $event: evnt
           });
         });
       });
 
       clipboard.on('error', function(evnt) {
         scope.$apply(function () {
-          scope.ngclipboardError({
-            evnt
-          });
+          scope.ngclipboardError(evnt);
         });
       });
     }

@@ -165,7 +165,6 @@ module.exports = function (grunt) {
     //connect less
     less: {
       options: {
-        rootpath: 'build/',
         sourceMap: true,
         sourceMapURL: '<%= appName %>.<%= buildNumber %>.css.map',
         compress: true,
@@ -174,7 +173,18 @@ module.exports = function (grunt) {
           cascade: false
         })]
       },
-      build: {
+      prod: {
+        options: {
+          rootpath: '/'
+        },
+        files: {
+          'build/<%= appName %>.<%= buildNumber %>.css': 'src/<%= appName %>.less'
+        }
+      },
+      dev: {
+        options: {
+          rootpath: '/build'
+        },
         files: {
           'build/<%= appName %>.<%= buildNumber %>.css': 'src/<%= appName %>.less'
         }
@@ -321,7 +331,7 @@ module.exports = function (grunt) {
     watch: {
       less: {
         files: ['src/**/*.less'],
-        tasks: ['less:build'],
+        tasks: ['less:dev'],
         options: {
           interrupt: true,
           spawn: true
@@ -382,7 +392,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean',
     'eslint:jenkins',
-    'less:build',
+    'less:prod',
     'copy',
     'processhtml:build',
     'babel:build',
@@ -399,7 +409,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('dev', [
     'clean',
-    'less:build',
+    'less:dev',
     'copy',
     'babel:build',
     'babel:e2e',

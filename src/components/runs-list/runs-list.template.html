@@ -1,4 +1,5 @@
 <runs-list>
+  <iframe id="download" style="display: none;"></iframe>
   <md-content class="run-list" layout="column" flex>
     <md-card>
       <md-toolbar class="md-table-toolbar md-default">
@@ -10,11 +11,11 @@
         <div class="filter-toolbar" layout="row" layout-align="start center" ng-if="runsList.selected.length === 0">
           <span>Between:</span>
           <md-datepicker ng-model="runsList.startDate"
-                         ng-change="runsList.setFilter()"
+                         ng-change="runsList.setDateFilter()"
                          md-max-date="runsList.endDate"
                          md-placeholder="Enter date"></md-datepicker>
           <md-datepicker ng-model="runsList.endDate"
-                         ng-change="runsList.setFilter()"
+                         ng-change="runsList.setDateFilter()"
                          md-min-date="runsList.startDate"
                          md-max-date="runsList.today"
                          md-placeholder="Enter date"></md-datepicker>
@@ -86,15 +87,22 @@
                       <div layout="row" class="checkboxes">
                         <md-checkbox ng-repeat="file in run.files"
                                      ng-change="runsList.generateLinks(run)"
+                                     ng-disabled="run.generatingLinks"
                                      md-prevent-menu-close
                                      ng-model="file.selected"
                                      aria-label="{{file.name}}">{{file.name}}</md-checkbox>
                       </div>
                       <hr />
-                      <md-button ng-disabled="!runsList.canDownloadOrCopy(run.files)"
-                                 md-prevent-menu-close
-                                 ngclipboard
-                                 data-clipboard-target="#links-area-{{$index}}">COPY</md-button>
+                      <div class="actions" flex layout="row" layout-align="end center">
+                        <md-progress-circular ng-if="run.generatingLinks"
+                                              md-mode="indeterminate"
+                                              md-diameter="20px"></md-progress-circular>
+                        <md-button ng-disabled="!run.linksText || run.linksText.length === 0 || run.generatingLinks"
+                                   md-prevent-menu-close
+                                   ngclipboard
+                                   ngclipboard-success="runsList.copySuccess()"
+                                   data-clipboard-target="#links-area-{{$index}}">COPY</md-button>
+                      </div>
                     </md-menu-item>
                   </md-menu-content>
                 </md-menu>
@@ -113,4 +121,5 @@
       </md-data-table-pagination>
     </md-card>
   </md-content>
+  <div id="copy-success">Copied to clipboard</div>
 </run-list>
