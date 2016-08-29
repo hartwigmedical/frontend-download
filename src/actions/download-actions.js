@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import {
   Actions,
   Inject,
@@ -20,6 +22,21 @@ export class DownloadActions {
     });
 
     return this.$q.all(promises);
+  }
+
+  download(links) {
+    if (links && angular.isArray(links)) {
+      links.forEach(link => {
+        const iframe = document.createElement('iframe');
+        iframe.src = link.fileURL;
+
+        iframe.onload = () => {
+          document.body.removeChild(iframe);
+        };
+
+        document.body.appendChild(iframe);
+      });
+    }
   }
 }
 

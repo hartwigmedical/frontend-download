@@ -60,32 +60,35 @@
   }
 }
 
-.download-menu,
-.links-menu {
-  padding: 20px;
-  height: auto;
-  max-height: none;
-
-  md-menu-item {
+._md-open-menu-container {
+  .download-menu,
+  .links-menu {
+    padding: 20px;
     height: auto;
+    // min-height: 300px;
     max-height: none;
-  }
 
-  hr {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.27);
-  }
+    md-menu-item {
+      height: auto;
+      max-height: none;
+    }
 
-  a {
-    padding: 0;
-    text-decoration: none;
-    display: block;
-    color: rgba(0, 0, 0, 0.87);
-    text-align: right;
-    padding-right: 25px;
-    box-sizing: border-box;
+    hr {
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.27);
+    }
+
+    a {
+      padding: 0;
+      text-decoration: none;
+      display: block;
+      color: rgba(0, 0, 0, 0.87);
+      text-align: right;
+      padding-right: 25px;
+      box-sizing: border-box;
+    }
   }
 }
 
@@ -96,6 +99,10 @@
 }
 
 .links-menu {
+
+  position: relative;
+
+
   textarea {
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -104,6 +111,12 @@
     &:focus {
       outline: none;
     }
+  }
+
+  .md-button {
+    float: right;
+    width: 50px;
+    align-self: flex-end;
   }
 
   .checkboxes {
@@ -141,4 +154,26 @@
 
 .copy-selected-dialog {
   min-width: 500px;
+}
+
+
+#copy-success {
+  position: fixed;
+  left: -4000px;
+  text-align: center;
+  padding: 8px;
+  background-color: rgb(40, 76, 153);
+  color: white;
+  border-radius: 8px;
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: 0.4;
+  width: 20%;
+  top: 40%;
+
+  &.opened {
+    left: 40%;
+    right: 40%;
+    opacity: 1;
+  }
 }
