@@ -77,7 +77,7 @@
                 <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
                   <md-button class="md-icon-button"
                              aria-label="Link button"
-                             ng-click="$mdOpenMenu($event)">
+                             ng-click="runsList.generateLinks(run); $mdOpenMenu($event)">
                     <md-icon md-menu-origin><span class="mdi mdi-content-copy"></span></md-icon>
                   </md-button>
                   <md-menu-content width="6" class="links-menu">
