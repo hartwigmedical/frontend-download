@@ -41,7 +41,7 @@ function CopySelectedDialogController($scope, $mdDialog) {
       .then(() => {
         let linksText = '';
 
-        $scope.runsList.selected.forEach((run) => {
+        $scope.runsList.selected.forEach(run => {
           run.files.forEach(file => {
             if ($scope.fileTypes[file.name]) {
               linksText += `\n\n${file.link}`;
