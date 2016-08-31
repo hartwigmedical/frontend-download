@@ -2,9 +2,28 @@ import angular from 'angular';
 
 function CopySelectedDialogController($scope, $mdDialog) {
   $scope.fileTypes = {};
+  $scope.selectAll = false;
 
   $scope.links = '';
   $scope.generatingLinks = false;
+
+  $scope.selectAllFileTypes = function() {
+    for (const name in $scope.fileTypes) {
+      if ($scope.fileTypes.hasOwnProperty(name)) {
+        $scope.fileTypes[name] = this.selectAll;
+      }
+    }
+
+    $scope.generateLinks();
+  };
+
+  $scope.selectFileType = function(selected) {
+    if (!selected) {
+      $scope.selectAll = false;
+    }
+
+    $scope.generateLinks();
+  };
 
   // Find the filetypes
   $scope.runsList.selected.forEach(run => {
@@ -15,32 +34,25 @@ function CopySelectedDialogController($scope, $mdDialog) {
     });
   });
 
-  $scope.onChange = function() {
-    const files = [];
-
+  $scope.generateLinks = function() {
     $scope.generatingLinks = true;
 
-    $scope.runsList.selected.forEach(run => {
-      run.files.forEach(file => {
-        if ($scope.fileTypes[file.name]) {
-          files.push(file);
-        }
-      });
-    });
-
-
-    $scope.runsList.downloadActions.generateDownloadLinks(files)
-      .then(links => {
+    $scope.runsList.downloadActions.generateDownloadLinksForRuns($scope.runsList.selected, $scope.fileTypes)
+      .then(() => {
         let linksText = '';
 
-        links.forEach(link => {
-          linksText += `${link.fileURL}\n\n`;
+        $scope.runsList.selected.forEach((run) => {
+          run.files.forEach(file => {
+            if ($scope.fileTypes[file.name]) {
+              linksText += `\n\n${file.link}`;
+            }
+          });
         });
 
-        $scope.links = linksText;
+        $scope.links = linksText.trim();
       })
       .catch(() => {
-        // @TODO handle error
+        $scope.error = true;
       })
       .finally(() => {
         $scope.generatingLinks = false;
@@ -81,13 +93,17 @@ export function copySelectedDialog($event, $scope) {
         </md-toolbar>
         <md-dialog-content>
           <textarea rows="10" readonly="true" id="copy-selected-modal-text">{{links}}</textarea>
-          <div class="checkboxes" layout="row">
+          <div class="checkboxes">
+            <md-checkbox ng-model="selectAll"
+                         ng-change="selectAllFileTypes()"
+                         ng-disabled="generatingLinks">All Files</md-checkbox>
             <md-checkbox ng-disabled="generatingLinks"
-                         ng-change="onChange()"
+                         ng-change="selectFileType()"
                          ng-repeat="(key, value) in fileTypes"
                          ng-model="fileTypes[key]"
                          aria-label="{{key}}">{{key}}</md-checkbox>
           </div>
+          <p class="error" ng-if="error">An error occured try again later...</p>
           <div class="actions" flex layout="row" layout-align="end center">
             <md-progress-circular ng-if="generatingLinks"
                                   md-mode="indeterminate"
