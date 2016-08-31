@@ -2,6 +2,7 @@ import angular from 'angular';
 
 function DownloadSelectedDialogController($scope, $mdDialog, downloadActions) {
   $scope.fileTypes = {};
+  $scope.selectAll = false;
 
   // Find the filetypes
   $scope.runsList.selected.forEach(run => {
@@ -12,6 +13,20 @@ function DownloadSelectedDialogController($scope, $mdDialog, downloadActions) {
     });
   });
 
+  $scope.selectAllFileTypes = function() {
+    for (const name in $scope.fileTypes) {
+      if ($scope.fileTypes.hasOwnProperty(name)) {
+        $scope.fileTypes[name] = $scope.selectAll;
+      }
+    }
+  };
+
+  $scope.selectFileType = function(selected) {
+    if (!selected) {
+      $scope.selectAll = false;
+    }
+  };
+
   // Close dialog
   $scope.cancel = function() {
     $mdDialog.cancel();
@@ -19,14 +34,16 @@ function DownloadSelectedDialogController($scope, $mdDialog, downloadActions) {
 
   // Download the files
   $scope.download = function() {
-    const files = $scope.getSelectedFiles();
+    $scope.error = false;
 
-    downloadActions.generateDownloadLinks(files)
-      .then(links => {
-        return downloadActions.download(links);
+    downloadActions.generateDownloadLinksForRuns($scope.runsList.selected, $scope.fileTypes)
+      .then(() => {
+        $scope.runsList.selected.forEach(run => {
+          downloadActions.download(run.files, $scope.fileTypes);
+        });
       })
       .catch(() => {
-        // @TODO handle error
+        $scope.error = true;
       });
   };
 
@@ -93,8 +110,13 @@ export function downloadSelectedDialog($event, $scope) {
         </md-toolbar>
         <md-dialog-content>
           <div class="checkboxes" layout="column">
-            <md-checkbox ng-repeat="(key, value) in fileTypes" ng-model="fileTypes[key]" aria-label="{{key}}">{{key}}</md-checkbox>
+            <md-checkbox ng-model="selectAll" ng-change="selectAllFileTypes()">All Files</md-checkbox>
+            <md-checkbox ng-repeat="(key, value) in fileTypes"
+                         ng-change="selectFileType(filesTypes[key])"
+                         ng-model="fileTypes[key]"
+                         aria-label="{{key}}">{{key}}</md-checkbox>
           </div>
+          <p class="error" ng-if="error">An error occured try again later...</p>
           <md-button ng-disabled="!canDownload()" ng-click="download()">DOWNLOAD {{getNumberOfFiles()}} FILES</md-button>
         </md-dialog-content>
       </md-dialog>

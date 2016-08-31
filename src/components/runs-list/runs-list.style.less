@@ -99,9 +99,7 @@
 }
 
 .links-menu {
-
   position: relative;
-
 
   textarea {
     box-sizing: border-box;
@@ -113,14 +111,16 @@
     }
   }
 
-  .md-button {
-    float: right;
-    width: 50px;
-    align-self: flex-end;
-  }
-
   .checkboxes {
     padding: 0;
+  }
+
+  .actions {
+    padding: 0;
+
+    .md-button {
+      margin: 0;
+    }
   }
 }
 
@@ -145,6 +145,10 @@
     .checkboxes {
       border-bottom: 1px solid rgba(0, 0, 0, 0.27);
     }
+  }
+
+  .error {
+    color: red;
   }
 
   button {

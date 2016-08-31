@@ -29,34 +29,40 @@ export class RunsListComponent {
 
   loadingError = false;
 
-  today = new Date();
-  startDate = new Date(`01/01/${new Date().getFullYear()}`);
-  endDate = new Date();
-
   // Multi select
   selected = [];
 
   activate() {
     // Set the initial filter
-    this.setDateFilter();
+    this.changeDateFilter();
 
     this.runsActions.load().catch(() => {
       this.loadingError = true;
     });
   }
 
-  setDateFilter() {
+  selectAllFileTypes(run) {
+    run.files.forEach(file => {
+      file.selected = run.selectAll;
+    });
+  }
+
+  selectFileType(run, file) {
+    if (!file.selected) {
+      run.selectAll = false;
+    }
+  }
+
+  changeDateFilter() {
     this.runsActions.changeFilter('date', run => {
       const createTime = moment(run.createTime);
-      return createTime.isSameOrAfter(this.startDate, 'day') && createTime.isSameOrBefore(this.endDate, 'day');
+      return createTime.isSameOrAfter(this.runsStore.startDate, 'day') && createTime.isSameOrBefore(this.runsStore.endDate, 'day');
     });
   }
 
   download(event, run) {
-    event.preventDefault();
-
-    this.generateLinks(run).then(links => {
-      this.downloadActions.download(links);
+    this.generateLinks(run).then(() => {
+      this.downloadActions.download(run.files);
     });
   }
 
@@ -67,28 +73,7 @@ export class RunsListComponent {
   }
 
   generateLinks(run) {
-    run.generatingLinks = true;
-
-    const files = run.files.filter(file => {
-      return file.selected;
-    });
-
-    const promise = this.downloadActions.generateDownloadLinks(files);
-
-    promise.then(links => {
-      let linksText = '';
-
-      links.forEach(link => {
-        linksText += `${link.fileURL}\n\n`;
-      });
-
-      run.linksText = linksText;
-      run.links = links;
-
-      run.generatingLinks = false;
-    });
-
-    return promise;
+    return this.downloadActions.generateDownloadLinksForRun(run);
   }
 
   copySuccess() {

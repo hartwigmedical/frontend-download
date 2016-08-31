@@ -1,6 +1,6 @@
-import angular from 'angular';
-
 import {
+  Action,
+  AsyncAction,
   Actions,
   Inject,
 } from 'anglue/anglue';
@@ -12,31 +12,75 @@ export class DownloadActions {
   @Inject() $q;
   @Inject() downloadResource;
 
-  generateDownloadLinks(files) {
-    const promises = [];
+  @AsyncAction()
+  generateDownloadLinksForRuns(runs, fileTypes) {
+    const runPromises = [];
 
-    files.forEach(file => {
-      promises.push(this.downloadResource.download({
-        fileId: file.fileid
-      }).$promise);
+    runs.forEach(run => {
+      runPromises.push(this.generateDownloadLinksForRun(run, fileTypes));
     });
 
-    return this.$q.all(promises);
+    return this.$q.all(runPromises);
   }
 
-  download(links) {
-    if (links && angular.isArray(links)) {
-      links.forEach(link => {
+  @AsyncAction()
+  generateDownloadLinksForRun(run, fileTypes) {
+    const now = new Date().getTime();
+    const filePromises = [];
+    const filesToDownload = run.files.filter(file => {
+      // List of filetypes that need to be downloaded has been given
+      // ignore the selected property
+      if (fileTypes && fileTypes[file.name] && !file.link ||
+          fileTypes && fileTypes[file.name] && now - file.linkTimestamp > 300000) {
+        return true;
+      }
+
+      // Only generate link if no link yet or link is older then 5 minutes
+      return file.selected && !file.link || file.selected && now - file.linkTimestamp > 300000;
+    });
+
+    if (filesToDownload.length > 0) {
+
+      // Generate link for each file
+      filesToDownload.forEach(file => {
+        file.link = undefined;
+        filePromises.push(this.generateDownloadLink(file));
+      });
+
+      return this.$q.all(filePromises).then(() => {
+        return run;
+      });
+    }
+
+    return this.$q.resolve(run);
+  }
+
+  @AsyncAction()
+  generateDownloadLink(file) {
+    return this.downloadResource.download({
+      fileId: file.fileid
+    }).$promise.then(link => {
+      return {
+        file,
+        link
+      };
+    });
+  }
+
+  @Action()
+  download(files, fileTypes) {
+    files.forEach(file => {
+      if (fileTypes && fileTypes[file.name] || !fileTypes && file.selected) {
         const iframe = document.createElement('iframe');
-        iframe.src = link.fileURL;
+        iframe.src = file.link;
 
         iframe.onload = () => {
           document.body.removeChild(iframe);
         };
 
         document.body.appendChild(iframe);
-      });
-    }
+      }
+    });
   }
 }
 
