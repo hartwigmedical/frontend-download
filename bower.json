@@ -21,11 +21,11 @@
     "angular-resource": "1.5.8",
     "angular-sanitize": "1.5.8",
     "angular-touch": "1.5.8",
-    "angular-material": "1.1.0-rc4",
+    "angular-material": "1.1.1",
     "angular-material-data-table": "0.8.14",
     "angular-ui-router": "0.2.18",
     "clipboard": "^1.5.12",
-    "connect-portal-component-v2": "https://sbp.gitlab.schubergphilis.com/frontend-libs/connect-portal-component-v2.git#b5b8d33e",
+    "connect-portal-component-v2": "https://sbp.gitlab.schubergphilis.com/frontend-libs/connect-portal-component-v2.git#0.1.19",
     "connect-styles": "https://github.schubergphilis.com/frontend/connect-styles.git#*",
     "connect-typography": "https://github.schubergphilis.com/frontend/connect-typography.git#1.2.0",
     "js-logger": "1.0.0",
@@ -36,7 +36,7 @@
     "moment": "^2.14.1"
   },
   "resolutions": {
-    "angular-material": "1.1.0-rc4",
+    "angular-material": "1.1.1",
     "angular": "1.5.8",
     "mdi": "~1.6.50",
     "angular-touch": "1.5.8",

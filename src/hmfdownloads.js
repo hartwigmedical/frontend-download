@@ -62,6 +62,24 @@ export default class Main {
   static initialize(config) {
     const appModule = Main.annotation.module;
 
+    appModule.filter('filesize', function() {
+      return function(bytes) {
+        if (bytes >= 1000000000) {
+          return `${(bytes / 1000000000).toFixed(2)} GB`;
+        } else if (bytes >= 1000000) {
+          return `${(bytes / 1000000).toFixed(2)} MB`;
+        } else if (bytes >= 1000) {
+          return `${(bytes / 1000).toFixed(2)} KB`;
+        } else if (bytes > 1) {
+          return `${bytes} bytes`;
+        } else if (bytes === 1) {
+          return `${bytes} byte`;
+        }
+
+        return '0 byte';
+      };
+    });
+
     // Setup the theming of Angular Material
     configureMaterial(appModule);
 
