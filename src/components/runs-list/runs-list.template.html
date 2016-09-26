@@ -59,14 +59,15 @@
                   <md-menu-content class="download-menu" width="3">
                     <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                     <md-menu-item ng-show="false"><p></p></md-menu-item>
-                    <md-menu-item layout="column" flex>
-                      <md-checkbox ng-model="run.selectAll" ng-change="runsList.selectAllFileTypes(run)">All Files</md-checkbox>
-                      <md-checkbox ng-repeat="file in run.files"
-                                   md-prevent-menu-close
-                                   ng-change="runsList.selectFileType(run, file)"
-                                   ng-model="file.selected"
-                                   aria-label="{{file.name}}">{{file.name}}</md-checkbox>
-                      <hr />
+                    <md-menu-item layout="column">
+                      <div class="checkboxes" layout="column">
+                        <md-checkbox ng-model="run.selectAll" ng-change="runsList.selectAllFileTypes(run)">All Files</md-checkbox>
+                        <md-checkbox ng-repeat="file in run.files"
+                                      md-prevent-menu-close
+                                      ng-change="runsList.selectFileType(run, file)"
+                                      ng-model="file.selected"
+                                      aria-label="{{file.name}}">{{file.name}} ({{file.filesize | filesize }})</md-checkbox>
+                      </div>
                       <md-button ng-disabled="!runsList.canDownloadOrCopy(run.files) || run.generatingLinks"
                                  md-prevent-menu-close
                                  ng-click="runsList.download($event, run)">DOWNLOAD</md-button>
@@ -83,7 +84,7 @@
                   <md-menu-content width="6" class="links-menu">
                     <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                     <md-menu-item ng-show="false"><p></p></md-menu-item>
-                    <md-menu-item layout="column" flex>
+                    <md-menu-item layout="column">
                       <textarea id="links-area-{{$index}}" rows="5" readonly value="{{runsList.linksText(run)}}">{{run.linksText}}</textarea>
                       <div class="checkboxes">
                         <md-checkbox ng-model="run.selectAll"
@@ -94,10 +95,9 @@
                                      ng-disabled="run.generatingLinks"
                                      md-prevent-menu-close
                                      ng-model="file.selected"
-                                     aria-label="{{file.name}}">{{file.name}}</md-checkbox>
+                                     aria-label="{{file.name}}">{{file.name}} ({{file.filesize | filesize }})</md-checkbox>
                       </div>
-                      <hr />
-                      <div class="actions" flex layout="row" layout-align="end center">
+                      <div class="actions" layout="row" layout-align="end center">
                         <span flex></span>
                         <md-progress-circular ng-if="run.generatingLinks"
                                               md-mode="indeterminate"
