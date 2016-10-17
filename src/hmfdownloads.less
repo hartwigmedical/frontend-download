@@ -4,10 +4,67 @@
 @import "./components/runs-list/runs-list.style.less";
 
 body {
-  background-color:#f1f1f1;
+  background-color: rgb(250,250,250);
 }
 
 
 iframe {
   display: none;
+}
+
+
+#region-portal {
+  portal-toolbar {
+    background-color: white!important;
+    height: 87px!important;
+
+    background-image: url('assets/img/logo_hartwigmedicalfoundation.svg');
+    background-size: 9%;
+    background-repeat: no-repeat;
+    background-position: 100px 15px;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 87px!important;
+
+      .separator {
+        flex: 1;
+      }
+    }
+
+
+    .portal-menu-button {
+      margin-left: 15px;
+
+      span {
+        background-color: rgb(40,76,153)!important;
+      }
+    }
+
+    .mdi {
+      color: #878787!important;
+    }
+  }
+
+  portal-main-menu {
+    #main-menu {
+      top: 87px!important;
+      background-color: rgba(243, 243, 243, 1);
+      z-index: -1;
+
+      ul {
+        margin-top: 20px;
+      }
+
+      ul, li {
+        background-color: rgba(243, 243, 243, 1);
+      }
+    }
+  }
+}
+
+#region-app {
+  top: 87px!important;
 }

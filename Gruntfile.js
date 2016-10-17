@@ -120,6 +120,19 @@ module.exports = function (grunt) {
             flatten: false
           }]
       },
+      assets: {
+        files: [
+          {
+            expand: true,
+            dest: 'build/assets',
+            cwd: 'src/assets',
+            src: [
+              '**/*'
+            ],
+            flatten: false
+          }
+        ]
+      },
       build: {
         files: {
           'build/almond.js': 'bower_components/almond/almond.js',
