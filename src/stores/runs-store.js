@@ -35,7 +35,7 @@ export class RunsStore {
 
     run.files.forEach(file => {
       if (file.selected) {
-        linksText += `\n \n ${file.link}`;
+        linksText += `\n\n${file.link}`;
       }
     });
 
