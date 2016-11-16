@@ -58,7 +58,7 @@ export class DownloadActions {
   @AsyncAction()
   generateDownloadLink(file) {
     return this.downloadResource.download({
-      fileId: file.fileid
+      fileid: file.fileid
     }).$promise.then(link => {
       return {
         file,
