@@ -1,6 +1,5 @@
-import connectPortal from 'connect-portal-component';
-
 // All the Angular packages that we use in our app
+import 'babel-polyfill';
 import angular from 'angular';
 import 'angular-aria';
 import 'angular-animate';
@@ -17,9 +16,9 @@ import moment from 'moment';
 import { Application } from 'anglue/anglue';
 import 'luxyflux/ng-luxyflux';
 
-// Helper methods that configure the App module's ui-router with our app routes
+// Config
 import configRoutes from './config/routes';
-
+import { hostmapping } from './config/hostmapping';
 import { configureMaterial } from './config/material-config';
 
 // This is the angular module that contains all the defined services
@@ -98,33 +97,11 @@ export default class Main {
     }]);
 
     // Configure the prefix for all the resources in the app:
-    if (!config.apiEndpoint) {
-      if (window.location.hostname.indexOf('acc.') > -1 || window.location.hostname.indexOf('localhost.') > -1) {
-        config.apiEndpoint = 'https://api.acc.schubergphilis.com';
-      } else {
-        config.apiEndpoint = 'https://api.schubergphilis.com';
-      }
-    }
-    appModule.value('apiEndpoint', config.apiEndpoint);
+    appModule.value('apiEndpoint', hostmapping.apiEndpoint);
 
 
     angular.element(document).ready(function () {
-      connectPortal.initialize(document.getElementById('region-portal'), {
-        menu: [{
-          title: 'HMF Downloads',
-          items: [{
-            title: 'Downloads',
-            hash: 'runs-list'
-          }]
-        }],
-        theme: {
-          primaryColor: '#284C99'
-        }
-      });
-
-      angular.bootstrap(config.appEl, [appModule.name], {
-        strictDi: true
-      });
+      angular.bootstrap(config.appEl, [appModule.name], { strictDi: true });
     });
   }
 }

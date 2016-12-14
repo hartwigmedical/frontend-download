@@ -29,18 +29,10 @@
 </head>
 
 <body>
-  <div id="region-all">
-    <div id="region-portal" portal></div>
-    <div id="region-app">
-      <ui-view ng-animate-children></ui-view>
-    </div>
+  <div id="region-app">
+    <ui-view ng-animate-children></ui-view>
   </div>
-  <div class="portal-loader">
-    <div class="spinner">
-      <div class="ring-one"></div>
-      <div class="ring-two"></div>
-    </div>
-  </div>
+
 
   <!-- build:template
   <script src="/hmfdownloads/almond.js"></script>
@@ -55,8 +47,7 @@
   <script type="text/javascript">
     require(['hmfdownloads'], function(app) {
       app.initialize({
-        appEl: document.getElementById('region-app'),
-        portalEl: document.getElementById('region-portal')
+        appEl: document.getElementById('region-app')
       });
     });
   </script>
