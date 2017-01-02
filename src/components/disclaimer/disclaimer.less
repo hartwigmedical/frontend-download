@@ -1,0 +1,36 @@
+.disclaimer-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 100;
+
+  .container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 25px;
+    bottom: 25px;
+    width: 80%;
+    max-width: 800px;
+    overflow: scroll;
+    margin:  auto;
+    padding: 15px;
+
+    .content {
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+      overflow: auto;
+      zoom: 1;
+      padding: 15px 24px;
+
+      button.md-raised {
+        float: right;
+      }
+    }
+  }
+}

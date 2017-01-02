@@ -12,14 +12,6 @@ export default {
 
   'downloads.runs-list': {
     url: 'runs-list/',
-    templateUrl: `${componentsPath}runs-list/runs-list.template.html`
+    templateUrl: `${componentsPath}runs-list/runs-list.html`
   }
-  // 'contexts.permissions.add': {
-  //   url: 'add/',
-  //   views: {
-  //     'drawer@contexts': {
-  //       templateUrl: `${componentsPath}context-permission-add/context-permission-add.html`
-  //     }
-  //   }
-  // }
 };

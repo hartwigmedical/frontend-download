@@ -9,10 +9,15 @@ import {
   SearchableComponent
 } from 'anglue/anglue';
 
+import { FaqComponent } from './faq/faq';
 import { copySelectedDialog } from './dialogs/copy';
 import { downloadSelectedDialog } from './dialogs/download';
 
-@Component()
+@Component({
+  components: [
+    FaqComponent
+  ]
+})
 @SortableComponent()
 @PaginatableComponent({
   initialLimit: 10
@@ -26,8 +31,10 @@ export class RunsListComponent {
   @Inject() runsStore;
   @Inject() runsActions;
   @Inject() downloadActions;
+  @Inject() $cookies;
 
   loadingError = false;
+  showFaq = false;
 
   // Multi select
   selected = [];
@@ -39,6 +46,15 @@ export class RunsListComponent {
     this.runsActions.load().catch(() => {
       this.loadingError = true;
     });
+
+    if (this.$cookies.get('disclaimer-accepted') !== 'true') {
+      this.showDisclaimer = true;
+    }
+  }
+
+  acceptDisclaimer() {
+    this.$cookies.put('disclaimer-accepted', 'true');
+    this.showDisclaimer = false;
   }
 
   selectAllFileTypes(run) {
