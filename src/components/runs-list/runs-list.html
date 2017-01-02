@@ -1,8 +1,12 @@
 <runs-list>
+  <faq show-faq="runsList.showFaq"></faq>
   <md-content class="run-list" layout="column" flex>
     <md-toolbar class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
         <span>Runs</span>
+        <md-button class="md-icon-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
+          <md-icon class="mdi mdi-help"></md-icon>
+        </md-button>
       </div>
     </md-toolbar>
     <md-data-table-container>

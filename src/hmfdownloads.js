@@ -25,7 +25,8 @@ import { configureMaterial } from './config/material-config';
 import resourcesModule from './resources/_module';
 
 // Application root components
-import { RunsListComponent } from './components/runs-list/runs-list.component';
+import { RunsListComponent } from './components/runs-list/runs-list';
+import { DisclaimerComponent } from './components/disclaimer/disclaimer';
 
 // Application Flux stores
 import { RunsStore } from './stores/runs-store';
@@ -51,7 +52,8 @@ import { RunsActions } from './actions/runs-actions';
     RunsActions
   ],
   components: [
-    RunsListComponent
+    RunsListComponent,
+    DisclaimerComponent
   ],
   stores: [
     RunsStore
