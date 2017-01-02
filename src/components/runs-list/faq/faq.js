@@ -1,7 +1,6 @@
 import {
   Binding,
-  Component,
-  Inject
+  Component
 } from 'anglue/anglue';
 
 @Component({
