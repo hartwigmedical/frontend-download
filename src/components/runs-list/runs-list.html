@@ -41,7 +41,6 @@
           <tr md-row>
             <th name="Name" class="name-column" order-by="name"></th>
             <th name="Create date" class="date-column" order-by="createTime"></th>
-            <th name="Status" class="status-column" order-by="statue" md-desc></th>
             <th></th>
           </tr>
         </thead>
@@ -51,7 +50,6 @@
               ng-repeat="run in runsList.runsStore.items">
             <td md-cell>{{run.name}}</td>
             <td md-cell>{{run.createTime | date : format : medium}}</td>
-            <td md-cell>{{run.status}}</td>
             <td md-cell class="actions-column">
               <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
                 <md-button class="md-icon-button"
