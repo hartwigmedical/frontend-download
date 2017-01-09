@@ -4,8 +4,11 @@
     <md-toolbar class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
         <span>Runs</span>
-        <md-button class="md-icon-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
+        <md-button class="md-icon-button faq-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
           <md-icon class="mdi mdi-help"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button logout-button" aria-label="Log out" ng-href="https://hmf.okta-emea.com/login/signout">
+          <md-icon class="mdi mdi-logout-variant"></md-icon>
         </md-button>
       </div>
     </md-toolbar>
@@ -21,7 +24,7 @@
                         md-min-date="runsList.runsStore.startDate"
                         md-max-date="runsList.runsStore.today"
                         md-placeholder="Enter date"></md-datepicker>
-        <div flex></div>
+        <div flex class="separator"></div>
         <div class="search">
           <md-icon class="mdi mdi-magnify"></md-icon>
           <input type="search" ng-model="runsList.searchText" ng-model-options="{debounce: 300}" placeholder="Search" />

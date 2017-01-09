@@ -11,6 +11,7 @@
       margin: 0 auto;
       padding: 0;
       position: relative;
+      background-color: @primary-color;
 
       span {
         font-family: 'Bitter', serif;
@@ -26,6 +27,10 @@
         font-size: 24px;
       }
     }
+
+    .faq-button {
+      margin-right: 55px;
+    }
   }
 
   md-data-table-container {
@@ -38,6 +43,7 @@
       height: 64px;
       width: 100%;
       box-sizing: border-box;
+      float: left;
 
       span:first-child {
         color: rgb(100, 100, 100);
@@ -78,9 +84,13 @@
         }
       }
 
+      .separator {
+        float: left;
+      }
 
       .search {
         position: relative;
+        float: right;
 
         md-icon {
           position: absolute;
