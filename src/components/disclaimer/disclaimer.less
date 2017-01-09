@@ -17,19 +17,22 @@
     bottom: 25px;
     width: 80%;
     max-width: 800px;
-    overflow: scroll;
+    overflow: hidden;
     margin:  auto;
-    padding: 15px;
 
     .content {
       background-color: white;
       box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
-      overflow: auto;
+      overflow: scroll;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
       zoom: 1;
-      padding: 15px 24px;
+      padding: 25px 24px;
+      height: 100%;
+      box-sizing: border-box;
 
       button.md-raised {
         float: right;
+        margin-bottom: 100px;
       }
     }
   }
