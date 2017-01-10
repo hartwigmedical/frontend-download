@@ -5,10 +5,16 @@
       <div class="md-toolbar-tools">
         <span>Runs</span>
         <md-button class="md-icon-button faq-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
+            <md-tooltip md-direction="bottom">
+              Help
+            </md-tooltip>
           <md-icon class="mdi mdi-help"></md-icon>
         </md-button>
         <md-button class="md-icon-button logout-button" aria-label="Log out" ng-href="https://hmf.okta-emea.com/login/signout">
-          <md-icon class="mdi mdi-logout-variant"></md-icon>
+            <md-tooltip md-direction="bottom">
+              Logout
+            </md-tooltip>
+            <md-icon class="mdi mdi-logout-variant"></md-icon>
         </md-button>
       </div>
     </md-toolbar>
