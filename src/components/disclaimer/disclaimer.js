@@ -8,16 +8,18 @@ import {
 })
 export class DisclaimerComponent {
   @Inject() $cookies;
+  @Inject() disclaimerActions;
+  @Inject() disclaimerStore;
 
   activate() {
     if (this.$cookies.get('disclaimer-accepted') !== 'true') {
-      this.showDisclaimer = true;
+      this.disclaimerActions.activateDisclaimer();
     }
   }
 
   acceptDisclaimer() {
     this.$cookies.put('disclaimer-accepted', 'true');
-    this.showDisclaimer = false;
+    this.disclaimerActions.hideDisclaimer();
   }
 }
 

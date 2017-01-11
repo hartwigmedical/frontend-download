@@ -30,10 +30,12 @@ import { DisclaimerComponent } from './components/disclaimer/disclaimer';
 
 // Application Flux stores
 import { RunsStore } from './stores/runs-store';
+import { DisclaimerStore } from './stores/disclaimer-store';
 
 // Application Flux ActionCreators
 import { DownloadActions } from './actions/download-actions';
 import { RunsActions } from './actions/runs-actions';
+import { DisclaimerActions } from './actions/disclaimer-actions';
 
 @Application({
   routes: configRoutes,
@@ -49,14 +51,16 @@ import { RunsActions } from './actions/runs-actions';
   ],
   actions: [
     DownloadActions,
-    RunsActions
+    RunsActions,
+    DisclaimerActions
   ],
   components: [
     RunsListComponent,
     DisclaimerComponent
   ],
   stores: [
-    RunsStore
+    RunsStore,
+    DisclaimerStore
   ]
 })
 export default class Main {
@@ -81,6 +85,17 @@ export default class Main {
       };
     });
 
+    appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
+      return {
+        responseError (rejection) {
+          if (rejection.status === 403) {
+            $window.location.reload();
+          }
+          return $q.reject(rejection);
+        }
+      };
+    }]);
+
     // Setup the theming of Angular Material
     configureMaterial(appModule);
 
@@ -89,6 +104,8 @@ export default class Main {
     function ($compileProvider, $httpProvider, $resourceProvider, $mdDateLocaleProvider) {
       $compileProvider.debugInfoEnabled(false);
       $httpProvider.defaults.withCredentials = true;
+      $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
+      $httpProvider.interceptors.push('authInterceptorService');
       $resourceProvider.defaults.stripTrailingSlashes = true;
 
       // Make the angular material date format correct
@@ -100,6 +117,7 @@ export default class Main {
 
     // Configure the prefix for all the resources in the app:
     appModule.value('apiEndpoint', hostmapping.apiEndpoint);
+    appModule.value('logoutEndpoint', hostmapping.logoutEndpoint);
 
 
     angular.element(document).ready(function () {

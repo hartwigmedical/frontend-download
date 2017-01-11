@@ -4,13 +4,19 @@
     <md-toolbar class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
         <span>Runs</span>
+        <md-button class="md-icon-button disclaimer-button" aria-label="Disclaimer" ng-click="runsList.showDisclaimer()">
+            <md-tooltip md-direction="bottom">
+              Disclaimer
+            </md-tooltip>
+          <md-icon class="mdi mdi-file-document-box"></md-icon>
+        </md-button>
         <md-button class="md-icon-button faq-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
             <md-tooltip md-direction="bottom">
               Help
             </md-tooltip>
-          <md-icon class="mdi mdi-help"></md-icon>
+          <md-icon class="mdi mdi-help-circle-outline"></md-icon>
         </md-button>
-        <md-button class="md-icon-button logout-button" aria-label="Log out" ng-href="https://hmf.okta-emea.com/login/signout">
+        <md-button class="md-icon-button logout-button" aria-label="Log out" ng-href="{{runsList.logoutEndpoint}}">
             <md-tooltip md-direction="bottom">
               Logout
             </md-tooltip>
