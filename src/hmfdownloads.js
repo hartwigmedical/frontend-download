@@ -102,6 +102,7 @@ export default class Main {
 
     // Configure the prefix for all the resources in the app:
     appModule.value('apiEndpoint', hostmapping.apiEndpoint);
+    appModule.value('logoutEndpoint', hostmapping.logoutEndpoint);
 
 
     angular.element(document).ready(function () {

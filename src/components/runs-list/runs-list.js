@@ -33,6 +33,7 @@ export class RunsListComponent {
   @Inject() downloadActions;
   @Inject() $cookies;
   @Inject() disclaimerStore;
+  @Inject('logoutEndpoint') logoutEndpoint;
 
   loadingError = false;
   showFaq = false;

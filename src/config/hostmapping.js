@@ -5,7 +5,8 @@ class Hostmapping {
     'connect.acc.schubergphilis.com':           'poc-acceptance',
     'connect.schubergphilis.com':               'poc-production',
 
-    'localhost.hartwigmedicalfoundation.nl':   'development',
+    'localhost':                                'development',
+    'localhost.hartwigmedicalfoundation.nl':    'development',
     'portal.acc.hartwigmedicalfoundation.nl':   'acceptance',
     'portal.hartwigmedicalfoundation.nl':       'production'
   };
