@@ -83,6 +83,17 @@ export default class Main {
       };
     });
 
+    appModule.factory('authInterceptorService', ['$q','$window', function ($q, $window){
+      return {
+        responseError: function(rejection) {
+          if (rejection.status === 403) {
+            $window.location.reload();
+          }
+          return $q.reject(rejection);
+        }
+      }
+    }]);
+
     // Setup the theming of Angular Material
     configureMaterial(appModule);
 
@@ -91,6 +102,8 @@ export default class Main {
     function ($compileProvider, $httpProvider, $resourceProvider, $mdDateLocaleProvider) {
       $compileProvider.debugInfoEnabled(false);
       $httpProvider.defaults.withCredentials = true;
+      $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
+      $httpProvider.interceptors.push('authInterceptorService');
       $resourceProvider.defaults.stripTrailingSlashes = true;
 
       // Make the angular material date format correct
