@@ -32,6 +32,7 @@ export class RunsListComponent {
   @Inject() runsActions;
   @Inject() downloadActions;
   @Inject() $cookies;
+  @Inject() disclaimerStore;
 
   loadingError = false;
   showFaq = false;
@@ -46,15 +47,10 @@ export class RunsListComponent {
     this.runsActions.load().catch(() => {
       this.loadingError = true;
     });
-
-    if (this.$cookies.get('disclaimer-accepted') !== 'true') {
-      this.showDisclaimer = true;
-    }
   }
 
-  acceptDisclaimer() {
-    this.$cookies.put('disclaimer-accepted', 'true');
-    this.showDisclaimer = false;
+  showDisclaimer() {
+    this.disclaimerStore.activateDisclaimer();
   }
 
   selectAllFileTypes(run) {

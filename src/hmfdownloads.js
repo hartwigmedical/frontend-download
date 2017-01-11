@@ -30,6 +30,7 @@ import { DisclaimerComponent } from './components/disclaimer/disclaimer';
 
 // Application Flux stores
 import { RunsStore } from './stores/runs-store';
+import { DisclaimerStore } from './stores/disclaimer-store';
 
 // Application Flux ActionCreators
 import { DownloadActions } from './actions/download-actions';
@@ -56,7 +57,8 @@ import { RunsActions } from './actions/runs-actions';
     DisclaimerComponent
   ],
   stores: [
-    RunsStore
+    RunsStore,
+    DisclaimerStore
   ]
 })
 export default class Main {
