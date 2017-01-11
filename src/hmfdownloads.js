@@ -35,6 +35,7 @@ import { DisclaimerStore } from './stores/disclaimer-store';
 // Application Flux ActionCreators
 import { DownloadActions } from './actions/download-actions';
 import { RunsActions } from './actions/runs-actions';
+import { DisclaimerActions } from './actions/disclaimer-actions';
 
 @Application({
   routes: configRoutes,
@@ -50,7 +51,8 @@ import { RunsActions } from './actions/runs-actions';
   ],
   actions: [
     DownloadActions,
-    RunsActions
+    RunsActions,
+    DisclaimerActions
   ],
   components: [
     RunsListComponent,
@@ -83,15 +85,15 @@ export default class Main {
       };
     });
 
-    appModule.factory('authInterceptorService', ['$q','$window', function ($q, $window){
+    appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
       return {
-        responseError: function(rejection) {
+        responseError (rejection) {
           if (rejection.status === 403) {
             $window.location.reload();
           }
           return $q.reject(rejection);
         }
-      }
+      };
     }]);
 
     // Setup the theming of Angular Material

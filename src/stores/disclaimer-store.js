@@ -1,16 +1,19 @@
 import {
-  Store
+  Store,
+  Handler
 } from 'anglue/anglue';
 
 @Store()
 export class DisclaimerStore {
   showDisclaimer = false;
-  
-  activateDisclaimer() {
+
+  @Handler()
+  onDisclaimerActivateDisclaimer() {
     this.showDisclaimer = true;
   }
-  
-  hideDisclaimer() {
+
+  @Handler()
+  onDisclaimerHideDisclaimer() {
     this.showDisclaimer = false;
   }
 }

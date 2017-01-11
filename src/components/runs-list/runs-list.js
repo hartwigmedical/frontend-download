@@ -31,8 +31,8 @@ export class RunsListComponent {
   @Inject() runsStore;
   @Inject() runsActions;
   @Inject() downloadActions;
+  @Inject() disclaimerActions;
   @Inject() $cookies;
-  @Inject() disclaimerStore;
   @Inject('logoutEndpoint') logoutEndpoint;
 
   loadingError = false;
@@ -51,7 +51,7 @@ export class RunsListComponent {
   }
 
   showDisclaimer() {
-    this.disclaimerStore.activateDisclaimer();
+    this.disclaimerActions.activateDisclaimer();
   }
 
   selectAllFileTypes(run) {
