@@ -12,28 +12,38 @@ class Hostmapping {
 
   hostConfig = {
     'poc-development': {
-      api: 'https://api.acc.schubergphilis.com'
+      api: 'https://api.acc.schubergphilis.com',
+      logout: 'https://hmf.oktapreview.com/login/signout'
     },
     'poc-acceptance': {
-      api: 'https://api.acc.schubergphilis.com'
+      api: 'https://api.acc.schubergphilis.com',
+      logout: 'https://hmf.oktapreview.com/login/signout'
     },
     'poc-production': {
-      api: 'https://api.schubergphilis.com'
+      api: 'https://api.schubergphilis.com',
+      logout: 'https://hmf.okta-emea.com/login/signout'
     },
 
     'development': {
-      api: 'https://portal.acc.hartwigmedicalfoundation.nl/api'
+      api: 'https://portal.acc.hartwigmedicalfoundation.nl/api',
+      logout: 'https://hmf.oktapreview.com/login/signout'
     },
     'acceptance': {
-      api: 'https://portal.acc.hartwigmedicalfoundation.nl/api'
+      api: 'https://portal.acc.hartwigmedicalfoundation.nl/api',
+      logout: 'https://hmf.oktapreview.com/login/signout'
     },
     'production': {
-      api: 'https://portal.hartwigmedicalfoundation.nl/api'
+      api: 'https://portal.hartwigmedicalfoundation.nl/api',
+      logout: 'https://hmf.okta-emea.com/login/signout'
     }
   };
 
   get apiEndpoint() {
     return this.hostConfig[this.environment].api;
+  }
+
+  get logoutEndpoint() {
+    return this.hostConfig[this.environment].logout;
   }
 
   get environment() {
