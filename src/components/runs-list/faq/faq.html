@@ -29,16 +29,24 @@
       </ul>
       <p>Note: same procedure applies to VCF files</p>
 
-      <h3>Example download using WGET:</h3>
+      <h3>Example download using aria2:</h3>
+      <p>We recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. This will allow you to download with mutiple streams speeding up the download significantly.</p>
       <ul>
         <li>create the links (by clicking the most right icon next to a run)</li>
-        <li>copy the links into a new text file (eg download.txt)</li>
+        <li>copy the links into a new text file (eg links.txt)</li>
         <li>use the following command to download:</li>
       </ul>
 
-      <code>wget --content-disposition -i download.txt</code>
+      <code>aria2c -x 5 -c -i links.txt</code>
 
-      <p>Note: we also recommend to check out the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. This will allow you to download with mutiple streams speeding up the download significantly.</p>
+      <h3>Example download using WGET:</h3>
+      <ul>
+        <li>create the links (by clicking the most right icon next to a run)</li>
+        <li>copy the links into a new text file (eg links.txt)</li>
+        <li>use the following command to download:</li>
+      </ul>
+
+      <code>wget --content-disposition -i links.txt</code>
 
       <md-button class="md-primary md-raised" ng-click="faq.showFaq = false">Close</md-button>
     </div>
