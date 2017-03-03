@@ -82,6 +82,32 @@ export class DownloadActions {
       }
     });
   }
+
+  @Action()
+  generateAria2Config(runs, fileTypes) {
+    let config = '';
+
+    runs.forEach(run => {
+      run.files.forEach(file => {
+        if (fileTypes[file.name]) {
+          config += `${file.link}\n`;
+          config += `  dir=${run.name}\n`;
+          config += `  checksum=md5=${file.hash}\n\n`;
+        }
+      });
+    });
+
+    const data = new Blob([config], { type: 'text/plain' });
+    const textFile = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+
+    document.body.appendChild(link);
+    link.style = 'display: none';
+    link.href = textFile;
+    link.download = 'aria2.txt';
+    link.click();
+    window.URL.revokeObjectURL(link);
+  }
 }
 
 export default DownloadActions;

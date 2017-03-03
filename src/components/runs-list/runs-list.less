@@ -15,12 +15,22 @@ md-tooltip {
 
 
   md-toolbar {
+    &.md-table-toolbar {
+      &:not(.md-menu-toolbar) {
+        &.md-default {
+          background-color: @primary-color;
+          color: white;
+        }
+      }
+    }
+
     .md-toolbar-tools {
       max-width: @max-content-width;
       margin: 0 auto;
       padding: 0;
       position: relative;
       background-color: @primary-color;
+      position: relative;
 
       span {
         font-family: 'Bitter', serif;
@@ -29,24 +39,28 @@ md-tooltip {
         font-size: 24px;
       }
 
-      .md-icon-button {
+      > .md-icon-button {
         position: absolute;
         top: 12px;
         right: 20px;
         font-size: 24px;
+
+        &.faq-button {
+          margin-right: 40px;
+        }
+
+        &.disclaimer-button {
+          margin-right: 90px;
+        }
+
+        md-icon {
+          color: white;
+        }
       }
-    }
-
-    .faq-button {
-      margin-right: 40px;
-    }
-
-    .disclaimer-button {
-      margin-right: 90px;
     }
   }
 
-  md-data-table-container {
+  md-table-container {
     display: block;
     width: 100%;
     max-width: @max-content-width;
@@ -162,8 +176,14 @@ md-tooltip {
         th {
           color: @primary-color!important;
           font-size: 16px!important;
-          font-family: 'Bitter', serif;
+          font-family: 'Bitter', serif!important;
           text-transform: uppercase;
+          text-align: left;
+          line-height: 35px;
+
+          &:nth-child(2) {
+            padding: 0!important;
+          }
 
           &.date-column {
             width: 150px;
@@ -189,8 +209,13 @@ md-tooltip {
       tbody {
         tr {
           td {
-            font-size: 16px;
-            color: rgb(100, 100, 100);
+            color: #646464!important;
+            font-size: 16px!important;
+            font-family: 'Lato', serif!important;
+
+            &:nth-child(2) {
+              padding-left: 0!important;
+            }
           }
 
           &:last-child {
@@ -199,199 +224,89 @@ md-tooltip {
             }
           }
         }
-
-        .actions-column {
-          width: 120px;
-          padding: 5px 0 0 0!important;
-
-          button {
-            float: left;
-
-            span.mdi {
-              font-size: 20px;
-            }
-          }
-        }
       }
     }
   }
 
-  md-data-table-toolbar {
+  md-table-toolbar {
     padding-left: 0;
   }
 
-  md-data-table-pagination {
+  md-table-pagination {
     width: 100%;
     max-width: @max-content-width;
     margin: 10px auto 0 auto;
+    border-top: none;
 
-    > div {
-      border-top: none;
-    }
-
-    span.label {
-      font-size: 16px;
-      margin-right: 10px;
-    }
-
-    > div:nth-child(1) {
-      > md-select {
-        background-color: @light-background;
-        padding: 4px 8px!important;
+    .limit-select {
+      .label {
         font-size: 16px;
+        margin-right: 10px;
+      }
+    }
 
-        > md-select-value {
-          > span.md-select-icon {
-            color: rgba(0, 0, 0, 0.44)!important;
-          }
+    md-select {
+      background-color: @light-background;
+      padding: 2px 8px!important;
+      font-size: 16px;
+      min-width: 45px;
+
+      > md-select-value {
+        > span.md-select-icon {
+          color: rgba(0, 0, 0, 0.44)!important;
         }
       }
     }
 
-    > div:nth-child(2) {
-      button {
-        border-radius: 0;
-        padding: 3px;
-        margin-right: 15px!important;
+    .buttons {
+      .label {
+        font-size: 16px;
+      }
 
-        md-icon {
-          font-size: 10px;
+      button {
+        &.md-icon-button {
+          height: 30px;
+          width: 30px;
+          border-radius: 0;
+          margin-right: 10px!important;
+
+          min-width: 0;
+          min-height: 0;
+          padding: 0;
         }
       }
 
       // previous and next button
-      button:nth-child(2),
-      button:nth-child(3) {
+      button:nth-child(3),
+      button:nth-child(4) {
         background-color: @primary-color;
 
         &:disabled {
           background-color: rgba(54, 76, 153, 0.35);
         }
 
+        &:hover:not(:disabled) {
+          background-color: @primary-color;
+        }
+
         md-icon {
           color: white;
         }
       }
-
-      // previous page and next page button
-      button:nth-child(1),
-      button:nth-child(4) {
-        background-color: @light-background;
-      }
-
-      button:nth-child(2) {
-        margin-right: 8px!important;
-      }
-    }
-
-    span {
-      font-size: 16px;
     }
   }
 }
 
-md-menu-item {
-  height: auto!important;
-}
 
-md-menu-content {
-  max-height: none!important;
-}
-
-.download-menu {
-  padding: 15px;
-
-  .checkboxes {
-    padding: 8px 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-
-    md-checkbox {
-      margin-bottom: 10px;
-    }
-  }
-}
-
-.links-menu {
-  position: relative;
-  padding: 15px;
-
-  textarea {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    padding: 5px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .checkboxes {
-    padding: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  }
-
-  .actions {
-    padding: 0;
-
-    .md-button {
-      margin: 0;
-    }
-  }
-}
-
-.download-selected-dialog,
-.copy-selected-dialog {
-  min-width: 355px;
-
+md-dialog {
   .md-toolbar-tools {
+    h2 {
+      color: white;
+      font-family: 'Bitter',serif !important;
+    }
+
     .mdi {
       font-size: 22px;
     }
-  }
-
-  md-dialog-content {
-    padding: 15px;
-
-    textarea {
-      margin-bottom: 10px;
-      width: 100%;
-    }
-
-    .checkboxes {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.27);
-    }
-  }
-
-  .error {
-    color: red;
-  }
-
-  button {
-    float: right;
-  }
-}
-
-.copy-selected-dialog {
-  min-width: 500px;
-}
-
-#copy-success {
-  position: fixed;
-  left: -4000px;
-  text-align: center;
-  padding: 8px;
-  background-color: @primary-color;
-  color: white;
-  border-radius: 8px;
-  opacity: 0;
-  transition-property: opacity;
-  transition-duration: 0.4;
-  width: 20%;
-  top: 40%;
-
-  &.opened {
-    left: 40%;
-    right: 40%;
-    opacity: 1;
   }
 }
