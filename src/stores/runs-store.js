@@ -57,6 +57,7 @@ export class RunsStore {
   @Handler()
   onDownloadGenerateDownloadLinkCompleted(payload) {
     payload.file.link = payload.link.fileURL;
+    payload.file.hash = payload.link.hash;
     payload.file.error = false;
   }
 }

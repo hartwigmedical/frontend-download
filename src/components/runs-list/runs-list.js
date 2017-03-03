@@ -1,4 +1,3 @@
-import angular from 'angular';
 import moment from 'moment';
 
 import {
@@ -10,8 +9,9 @@ import {
 } from 'anglue/anglue';
 
 import { FaqComponent } from './faq/faq';
-import { copySelectedDialog } from './dialogs/copy';
-import { downloadSelectedDialog } from './dialogs/download';
+import { copySelectedDialog } from './dialogs/copy/copy';
+import { downloadSelectedDialog } from './dialogs/download/download';
+import { aria2SelectedDialog } from './dialogs/aria2/aria2';
 
 @Component({
   components: [
@@ -65,18 +65,6 @@ export class RunsListComponent {
     this.disclaimerActions.activateDisclaimer();
   }
 
-  selectAllFileTypes(run) {
-    run.files.forEach(file => {
-      file.selected = run.selectAll;
-    });
-  }
-
-  selectFileType(run, file) {
-    if (!file.selected) {
-      run.selectAll = false;
-    }
-  }
-
   changeDateFilter() {
     this.runsActions.changeFilter('date', run => {
       const createTime = moment(run.createTime);
@@ -84,43 +72,16 @@ export class RunsListComponent {
     });
   }
 
-  download(event, run) {
-    this.generateLinks(run).then(() => {
-      this.downloadActions.download(run.files);
-    });
-  }
-
-  canDownloadOrCopy(files) {
-    return files.find(file => {
-      return file.selected;
-    });
-  }
-
-  generateLinks(run) {
-    return this.downloadActions.generateDownloadLinksForRun(run);
-  }
-
-  copySuccess() {
-    this.$mdMenu.hide();
-    const $message = angular.element(document.getElementById('copy-success'));
-
-    this.$timeout(() => {
-      $message.addClass('opened');
-
-      this.$timeout(() => {
-        $message.removeClass('opened');
-      }, 800);
-    }, 200);
-  }
-
-  // Open the download selected runs dialog
   downloadSelected($event) {
     this.$mdDialog.show(downloadSelectedDialog($event, this.$scope));
   }
 
-  // Open the copy selected runs dialog
   copySelected($event) {
     this.$mdDialog.show(copySelectedDialog($event, this.$scope));
+  }
+
+  aria2Selected($event) {
+    this.$mdDialog.show(aria2SelectedDialog($event, this.$scope));
   }
 }
 

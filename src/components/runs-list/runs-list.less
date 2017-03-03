@@ -224,19 +224,6 @@ md-tooltip {
             }
           }
         }
-
-        .actions-column {
-          width: 120px;
-          padding: 5px 0 0 0!important;
-
-          button {
-            float: left;
-
-            span.mdi {
-              font-size: 20px;
-            }
-          }
-        }
       }
     }
   }
@@ -257,8 +244,6 @@ md-tooltip {
         margin-right: 10px;
       }
     }
-
-
 
     md-select {
       background-color: @light-background;
@@ -312,108 +297,16 @@ md-tooltip {
   }
 }
 
-md-menu-item {
-  height: auto!important;
-}
 
-md-menu-content {
-  max-height: none!important;
-}
-
-.download-menu {
-  padding: 15px;
-
-  .checkboxes {
-    padding: 8px 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-
-    md-checkbox {
-      margin-bottom: 10px;
-    }
-  }
-}
-
-.links-menu {
-  position: relative;
-  padding: 15px;
-
-  textarea {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    padding: 5px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .checkboxes {
-    padding: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  }
-
-  .actions {
-    padding: 0;
-
-    .md-button {
-      margin: 0;
-    }
-  }
-}
-
-.download-selected-dialog,
-.copy-selected-dialog {
-  min-width: 355px;
-
+md-dialog {
   .md-toolbar-tools {
+    h2 {
+      color: white;
+      font-family: 'Bitter',serif !important;
+    }
+
     .mdi {
       font-size: 22px;
     }
-  }
-
-  md-dialog-content {
-    padding: 15px;
-
-    textarea {
-      margin-bottom: 10px;
-      width: 100%;
-    }
-
-    .checkboxes {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.27);
-    }
-  }
-
-  .error {
-    color: red;
-  }
-
-  button {
-    float: right;
-  }
-}
-
-.copy-selected-dialog {
-  min-width: 500px;
-}
-
-#copy-success {
-  position: fixed;
-  left: -4000px;
-  text-align: center;
-  padding: 8px;
-  background-color: @primary-color;
-  color: white;
-  border-radius: 8px;
-  opacity: 0;
-  transition-property: opacity;
-  transition-duration: 0.4;
-  width: 20%;
-  top: 40%;
-
-  &.opened {
-    left: 40%;
-    right: 40%;
-    opacity: 1;
   }
 }

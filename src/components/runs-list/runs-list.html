@@ -45,6 +45,7 @@
       <div class="multiple-actions" layout="row" layout-align="start center" ng-if="runsList.selected.length > 0">
         <span>Selected: {{runsList.selected.length}} runs</span>
         <div flex></div>
+        <md-button ng-click="runsList.aria2Selected($event)">Aria 2 selected</md-button>
         <md-button ng-click="runsList.downloadSelected($event)">Download selected</md-button>
         <md-button ng-click="runsList.copySelected($event)">Copy selected</md-button>
       </div>
@@ -60,7 +61,6 @@
             <th md-column class="ini-column" md-order-by="ini_name">Ini</th>
             <th md-column class="pipeline-column" md-order-by="pipeline">Pipeline</th>
             <th md-column class="date-column" md-order-by="createTime">Create date</th>
-            <th></th>
           </tr>
         </thead>
 
@@ -73,67 +73,6 @@
             <td md-cell>{{run.ini_name}}</td>
             <td md-cell>{{run.pipeline}}</td>
             <td md-cell>{{run.createTime | date : format : medium}}</td>
-            <td md-cell class="actions-column">
-              <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
-                <md-button class="md-icon-button"
-                            aria-label="Download button"
-                            ng-click="$mdOpenMenu($event)">
-                  <md-icon md-menu-origin><span class="mdi mdi-download"></span></md-icon>
-                </md-button>
-                <md-menu-content class="download-menu" width="3">
-                  <md-menu-item ng-show="false"><p></p></md-menu-item>
-                  <md-menu-item layout="column">
-                    <div class="checkboxes" layout="column">
-                      <md-checkbox ng-model="run.selectAll" ng-change="runsList.selectAllFileTypes(run)">All Files</md-checkbox>
-                      <md-checkbox ng-repeat="file in run.files"
-                                    md-prevent-menu-close
-                                    ng-change="runsList.selectFileType(run, file)"
-                                    ng-model="file.selected"
-                                    aria-label="{{file.name}}">{{file.name}} ({{file.filesize | filesize }})</md-checkbox>
-                    </div>
-                    <md-button ng-disabled="!runsList.canDownloadOrCopy(run.files) || run.generatingLinks"
-                                md-prevent-menu-close
-                                ng-click="runsList.download($event, run)">DOWNLOAD</md-button>
-                  </md-menu-item>
-                </md-menu-content>
-              </md-menu>
-
-              <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
-                <md-button class="md-icon-button"
-                            aria-label="Link button"
-                            ng-click="runsList.generateLinks(run); $mdOpenMenu($event)">
-                  <md-icon md-menu-origin><span class="mdi mdi-content-copy"></span></md-icon>
-                </md-button>
-                <md-menu-content width="6" class="links-menu">
-                  <md-menu-item ng-show="false"><p></p></md-menu-item>
-                  <md-menu-item layout="column">
-                    <textarea id="links-area-{{$index}}" rows="5" readonly value="{{runsList.linksText(run)}}">{{run.linksText}}</textarea>
-                    <div class="checkboxes">
-                      <md-checkbox ng-model="run.selectAll"
-                                    ng-change="runsList.selectAllFileTypes(run); runsList.generateLinks(run)"
-                                    ng-disabled="run.generatingLinks">All Files</md-checkbox>
-                      <md-checkbox ng-repeat="file in run.files"
-                                    ng-change="runsList.selectFileType(run, file); runsList.generateLinks(run)"
-                                    ng-disabled="run.generatingLinks"
-                                    md-prevent-menu-close
-                                    ng-model="file.selected"
-                                    aria-label="{{file.name}}">{{file.name}} ({{file.filesize | filesize }})</md-checkbox>
-                    </div>
-                    <div class="actions" layout="row" layout-align="end center">
-                      <span flex></span>
-                      <md-progress-circular ng-if="run.generatingLinks"
-                                            md-mode="indeterminate"
-                                            md-diameter="20px"></md-progress-circular>
-                      <md-button ng-disabled="!run.linksText || run.linksText.length === 0 || run.generatingLinks"
-                                  md-prevent-menu-close
-                                  ngclipboard
-                                  ngclipboard-success="runsList.copySuccess()"
-                                  data-clipboard-target="#links-area-{{$index}}">COPY</md-button>
-                    </div>
-                  </md-menu-item>
-                </md-menu-content>
-              </md-menu>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -151,5 +90,4 @@
                               md-boundary-links="true">
     </md-table-pagination>
   </md-content>
-  <div id="copy-success">Copied to clipboard</div>
 </run-list>
