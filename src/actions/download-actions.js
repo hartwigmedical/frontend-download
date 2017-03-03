@@ -91,8 +91,8 @@ export class DownloadActions {
       run.files.forEach(file => {
         if (fileTypes[file.name]) {
           config += `${file.link}\n`;
-          config += `dir=${run.name}\n`;
-          config += `checksum=md5=${file.hash}\n\n`;
+          config += `  dir=${run.name}\n`;
+          config += `  checksum=md5=${file.hash}\n\n`;
         }
       });
     });
