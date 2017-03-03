@@ -24,7 +24,7 @@
         </md-button>
       </div>
     </md-toolbar>
-    <md-data-table-container>
+    <md-table-container>
       <div class="filter-toolbar" layout="row" layout-align="start center" ng-if="runsList.selected.length === 0">
         <span>Between:</span>
         <md-datepicker ng-model="runsList.runsStore.startDate"
@@ -48,22 +48,30 @@
         <md-button ng-click="runsList.downloadSelected($event)">Download selected</md-button>
         <md-button ng-click="runsList.copySelected($event)">Copy selected</md-button>
       </div>
-      <table md-data-table
-            md-row-select="runsList.selected"
-            multiple="true"
-            ng-hide="runsList.searchText && runsList.runsStore.items.length === 0">
-        <thead md-order="runsList.sortExpression">
+      <table md-table
+             md-row-select
+             ng-model="runsList.selected"
+             multiple
+             ng-hide="runsList.searchText && runsList.runsStore.items.length === 0">
+
+        <thead md-head md-order="runsList.sortExpression">
           <tr md-row>
-            <th name="Name" class="name-column" order-by="name"></th>
-            <th name="Create date" class="date-column" order-by="createTime"></th>
+            <th md-column class="name-column" md-order-by="name">Name</th>
+            <th md-column class="ini-column" md-order-by="ini_name">Ini</th>
+            <th md-column class="pipeline-column" md-order-by="pipeline">Pipeline</th>
+            <th md-column class="date-column" md-order-by="createTime">Create date</th>
             <th></th>
           </tr>
         </thead>
+
         <tbody md-body>
           <tr md-row md-select="run"
-              md-disable-select="!run.files || run.files.length === 0"
+              md-select-id="run"
+              ng-disabled="!run.files || run.files.length === 0"
               ng-repeat="run in runsList.runsStore.items">
             <td md-cell>{{run.name}}</td>
+            <td md-cell>{{run.ini_name}}</td>
+            <td md-cell>{{run.pipeline}}</td>
             <td md-cell>{{run.createTime | date : format : medium}}</td>
             <td md-cell class="actions-column">
               <md-menu md-position-mode="target-right target" ng-if="run.files && run.files.length > 0">
@@ -73,7 +81,6 @@
                   <md-icon md-menu-origin><span class="mdi mdi-download"></span></md-icon>
                 </md-button>
                 <md-menu-content class="download-menu" width="3">
-                  <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                   <md-menu-item ng-show="false"><p></p></md-menu-item>
                   <md-menu-item layout="column">
                     <div class="checkboxes" layout="column">
@@ -98,7 +105,6 @@
                   <md-icon md-menu-origin><span class="mdi mdi-content-copy"></span></md-icon>
                 </md-button>
                 <md-menu-content width="6" class="links-menu">
-                  <!-- empty menu item fixes issue where first item gets focus on opening the menu -->
                   <md-menu-item ng-show="false"><p></p></md-menu-item>
                   <md-menu-item layout="column">
                     <textarea id="links-area-{{$index}}" rows="5" readonly value="{{runsList.linksText(run)}}">{{run.linksText}}</textarea>
@@ -131,18 +137,19 @@
           </tr>
         </tbody>
       </table>
-      <md-data-table-toolbar ng-if="runsList.runsStore.isLoading">Loading...</md-data-table-toolbar>
-      <md-data-table-toolbar ng-if="!runsList.runsStore.isLoading && !runsList.loadingError && !runsList.searchText && runsList.runsStore.items.length === 0">No runs found...</md-data-table-toolbar>
-      <md-data-table-toolbar ng-if="runsList.searchText && runsList.runsStore.items.length === 0">No results matching: '{{runsList.searchText}}'</md-data-table-toolbar>
-      <md-data-table-toolbar ng-if="runsList.loadingError">An error occured, try again later....</md-data-table-toolbar>
-    </md-data-table-container>
+      <p ng-if="runsList.runsStore.isLoading">Loading...</p>
+      <p ng-if="!runsList.runsStore.isLoading && !runsList.loadingError && !runsList.searchText && runsList.runsStore.items.length === 0">No runs found...</p>
+      <p ng-if="runsList.searchText && runsList.runsStore.items.length === 0">No results matching: '{{runsList.searchText}}'</p>
+      <p ng-if="runsList.loadingError">An error occured, try again later....</p>
+    </md-table-container>
 
-    <md-data-table-pagination ng-if="runsList.runsStore.items.length > 0"
+    <md-table-pagination ng-if="runsList.runsStore.items.length > 0"
                               md-limit="runsList.pagination.limit"
-                              md-row-select="[10, 25, 50, 100]"
+                              md-limit-options="runsList.paginationLimits"
                               md-page="runsList.pagination.page"
-                              md-total="{{runsList.pagination.total}}">
-    </md-data-table-pagination>
+                              md-total="{{runsList.pagination.total}}"
+                              md-boundary-links="true">
+    </md-table-pagination>
   </md-content>
   <div id="copy-success">Copied to clipboard</div>
 </run-list>

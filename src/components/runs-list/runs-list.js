@@ -38,6 +38,8 @@ export class RunsListComponent {
   loadingError = false;
   showFaq = false;
 
+  paginationLimits = [1, 10, 25, 50, 100, 500];
+
   // Multi select
   selected = [];
 
@@ -45,9 +47,18 @@ export class RunsListComponent {
     // Set the initial filter
     this.changeDateFilter();
 
-    this.runsActions.load().catch(() => {
-      this.loadingError = true;
-    });
+    this.runsActions.load()
+      .catch(() => {
+        this.loadingError = true;
+      })
+      .finally(() => {
+        this.paginationLimits.push({
+          label: 'All',
+          value: () => {
+            return this.runsStore.paginationState.total;
+          }
+        });
+      });
   }
 
   showDisclaimer() {
