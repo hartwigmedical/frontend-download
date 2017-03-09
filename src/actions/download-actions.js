@@ -93,8 +93,9 @@ export class DownloadActions {
           config += `${file.link}\n`;
           config += `  dir=${run.name}\n`;
           if (file.hash !== null) {
-            config += `  checksum=md5=${file.hash}\n\n`;
+            config += `  checksum=md5=${file.hash}\n`;
           }
+          config += `\n`;
         }
       });
     });
