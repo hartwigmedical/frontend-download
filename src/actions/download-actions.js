@@ -92,7 +92,9 @@ export class DownloadActions {
         if (fileTypes[file.name]) {
           config += `${file.link}\n`;
           config += `  dir=${run.name}\n`;
-          config += `  checksum=md5=${file.hash}\n\n`;
+          if (file.hash !== null) {
+            config += `  checksum=md5=${file.hash}\n\n`;
+          }
         }
       });
     });
