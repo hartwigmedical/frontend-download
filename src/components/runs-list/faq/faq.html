@@ -6,12 +6,12 @@
     <div class="content">
       <h2>Hartwig Medical Foundation Download Portal</h2>
       <h3>The portal</h3>
-      <p>Via this portal you have access to molecular data from your group or center. For each sample/patient certain files can be downloaded by creating links (valid for 24 hours). The links can be used to download (via browser or standard tools like WGET/cURL) or, in the case of indexed files like the BAM format, directly read ("stream") into a program like IGV (Integrative Genome Browser) so you do not have to download large files completely just to check a small part of them.</p>
+      <p>This portal allows view/download of data from our analysis pipeline. For each sample/patient certain files can be downloaded by creating links (valid for 24 hours). The links can be used to download (via browser or command line tools) or, in the case of indexed files like the BAM format, directly read (stream) by software like IGV (Integrative Genome Browser).</p>
 
       <h3>Good to know</h3>
       <ul>
         <li>Files can be very large (up to 300GB) so please check before starting a download!</li>
-        <li>The session time is 2 hours, after this period you will have to login again</li>
+        <li>The session time is 4 hours, after this period you will have to login again</li>
         <li>Links are valid for 24 hours, after this period you will have to create new links</li>
         <li>This portal contains "molecular" data, no clinical information (for data requests that require clinical information please see our <a href="https://www.hartwigmedicalfoundation.nl/databeleid/" target="_blank">Data Policy</a>)</li>
         <li>Examples of available data formats are BAM, gVCF and VCF</li>
@@ -20,33 +20,32 @@
       <p>Please let us know if you have comments or want to share your portal experience. For more information and contact please visit our <a href="https://www.hartwigmedicalfoundation.nl" target="_blank">website</a>.</p>
 
       <h2>Usage examples</h2>
+      
+      <p>There are three options to retrieve files. When you use the checkboxes to select one or more datasets/rows these options appear at the top right above the table:</p>
+      <ul>
+        <li>DOWNLOAD ARIA2 CONFIG</li>
+        <li>DOWNLOAD FILES</li>
+        <li>COPY LINKS</li>
+      </ul>
+      
+      <h3>Example download using aria2:</h3>
+      <p>For downloading files on the command line we highly recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. When using this method files are saved to a separate directory per analysis and md5 checksum check is included.</p>
+      <ul>
+        <li>download the config file (use the "DOWNLOAD ARIA2 CONFIG" option)</li>
+        <li>and start a download with the following code:</li>
+      </ul>
+      <code>aria2c -x 5 -c -i aria2.txt</code>
+
+      <h3>Example direct download in browser</h3>
+      <p>You can also use the option "DOWNLOAD FILES" to directly start the downloads in your browser, for example to quickly view a pdf or other small file.</p>
+
       <h3>Example loading BAM file in IGV:</h3>
       <ul>
-        <li>create the links for the BAM and accompanying BAI file (by clicking the most right icon next to a run)</li>
+        <li>create links for BAM and accompanying BAI file (use the "COPY LINKS" option)</li>
         <li>open the IGV program and choose option "Load from URL"</li>
         <li>paste the BAM file link at field "File URL"</li>
         <li>paste the BAI file link at field "Index URL"</li>
       </ul>
-      <p>Note: same procedure applies to VCF files</p>
-
-      <h3>Example download using aria2:</h3>
-      <p>We recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. This will allow you to download with mutiple streams speeding up the download significantly.</p>
-      <ul>
-        <li>create the links (by clicking the most right icon next to a run)</li>
-        <li>copy the links into a new text file (eg links.txt)</li>
-        <li>use the following command to download:</li>
-      </ul>
-
-      <code>aria2c -x 5 -c -i links.txt</code>
-
-      <h3>Example download using WGET:</h3>
-      <ul>
-        <li>create the links (by clicking the most right icon next to a run)</li>
-        <li>copy the links into a new text file (eg links.txt)</li>
-        <li>use the following command to download:</li>
-      </ul>
-
-      <code>wget --content-disposition -i links.txt</code>
 
       <md-button class="md-primary md-raised" ng-click="faq.showFaq = false">Close</md-button>
     </div>
