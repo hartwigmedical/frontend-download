@@ -5,14 +5,14 @@
     </md-button>
     <div class="content">
       <h2>Hartwig Medical Foundation Download Portal</h2>
-      <h3>The portal</h3>
-      <p>This portal allows view/download of data from our analysis pipeline. For each sample/patient certain files can be downloaded by creating links (valid for 24 hours). The links can be used to download (via browser or command line tools) or, in the case of indexed files like the BAM format, directly read (stream) by software like IGV (Integrative Genome Browser).</p>
 
-      <h3>Good to know</h3>
+      <p>This portal allows viewing and download of generated data. For each sample/patient certain files can be downloaded by creating https links. These links are only valid during a limited period for security reasons and can be used to download (via browser or command line tools) or, in the case of indexed files like the BAM format, directly read (streamed) by software like IGV (Integrative Genome Browser).</p>
+
+      <h3>Details</h3>
       <ul>
-        <li>Files can be very large (up to 300GB) so please check before starting a download!</li>
-        <li>The session time is 4 hours, after this period you will have to login again</li>
-        <li>Links are valid for 24 hours, after this period you will have to create new links</li>
+        <li>Files can be very large (up to 300GB) so please be aware when selecting multiple sets!</li>
+        <li>Session time is 4 hours, after this period you will have to login again</li>
+        <li>Links are valid for 7 days, after this period you will have to re-create the links</li>
         <li>This portal contains "molecular" data, no clinical information (for data requests that require clinical information please see our <a href="https://www.hartwigmedicalfoundation.nl/databeleid/" target="_blank">Data Policy</a>)</li>
         <li>Examples of available data formats are BAM, gVCF and VCF</li>
         <li>See below for some usage examples</li>
@@ -23,18 +23,19 @@
       
       <p>There are three options to retrieve files. When you use the checkboxes to select one or more datasets/rows these options appear at the top right above the table:</p>
       <ul>
-        <li>DOWNLOAD ARIA2 CONFIG</li>
-        <li>DOWNLOAD FILES</li>
-        <li>COPY LINKS</li>
+        <li>Download Aria2 Config</li>
+        <li>Download Files</li>
+        <li>Copy Links</li>
       </ul>
       
       <h3>Example download using aria2:</h3>
-      <p>For downloading files on the command line we highly recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. When using this method files are saved to a separate directory per analysis and md5 checksum check is included.</p>
+      <p>For downloading files using command line we recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. Files are saved to a separate directory per analysis and a md5 checksum is automatically performed for file integrity. Aria2 is also capable of resuming interrupted downloads, you can visit their website to check all options.</p>
       <ul>
-        <li>download the config file (use the "DOWNLOAD ARIA2 CONFIG" option)</li>
+        <li>download the config file (use the "Download Aria2 Config" option)</li>
         <li>and start a download with the following code:</li>
       </ul>
-      <code>aria2c -x 5 -c -i aria2.txt</code>
+      <code>aria2c -V -x 5 -c -i aria2.txt</code>
+      <p>The "-x 5" option means 5 downloads will be started simultaneously, "-c" allows aria2 to resume a stopped download and "-i" is to provide the input file with links.</p>
 
       <h3>Example download using browser:</h3>
       <p>Use the option "DOWNLOAD FILES" to directly start a download in your browser, for example to quickly view a pdf or other small file.</p>
