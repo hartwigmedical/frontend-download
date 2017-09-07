@@ -87,13 +87,16 @@ export default class Main {
 
     appModule.filter('orderObject', function () {
       return function (object, reverse) {
-        var keys = Object.keys(object || {}).sort();
-        if (reverse) keys.reverse();
-        for (var ordered = {}, i = 0; keys[i]; i++) {
-          ordered[keys[i]] = object[keys[i]];
+        const keys = Object.keys(object || {}).sort();
+        const ordered = {};
+        if (reverse) {
+          keys.reverse();
+        }
+        for (let idx = 0; keys[idx]; idx += 1) {
+          ordered[keys[idx]] = object[keys[idx]];
         }
         return ordered;
-      }
+      };
     });
 
     appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
@@ -112,19 +115,20 @@ export default class Main {
 
     // Configure the Angular providers
     appModule.config(['$compileProvider', '$httpProvider', '$resourceProvider', '$mdDateLocaleProvider',
-    function ($compileProvider, $httpProvider, $resourceProvider, $mdDateLocaleProvider) {
-      $compileProvider.debugInfoEnabled(false);
-      $httpProvider.defaults.withCredentials = true;
-      $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
-      $httpProvider.interceptors.push('authInterceptorService');
-      $resourceProvider.defaults.stripTrailingSlashes = true;
+      function ($compileProvider, $httpProvider, $resourceProvider, $mdDateLocaleProvider) {
+        $compileProvider.debugInfoEnabled(false);
+        $httpProvider.defaults.withCredentials = true;
+        $httpProvider.defaults.headers.common['X-Request-With'] = 'XMLHttpRequest';
+        $httpProvider.interceptors.push('authInterceptorService');
+        $resourceProvider.defaults.stripTrailingSlashes = true;
 
-      // Make the angular material date format correct
-      $mdDateLocaleProvider.formatDate = dateString => {
-        const date = moment(dateString);
-        return date.isValid() ? date.format('DD/MM/YYYY') : '';
-      };
-    }]);
+        // Make the angular material date format correct
+        $mdDateLocaleProvider.formatDate = dateString => {
+          const date = moment(dateString);
+          return date.isValid() ? date.format('DD/MM/YYYY') : '';
+        };
+      }
+    ]);
 
     // Configure the prefix for all the resources in the app:
     appModule.value('apiEndpoint', hostmapping.apiEndpoint);

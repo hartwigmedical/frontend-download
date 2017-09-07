@@ -81,6 +81,7 @@ function DownloadSelectedDialogController($scope, $mdDialog, downloadActions) {
     if (files.length > 0) {
       return files.length;
     }
+    return 0;
   };
 }
 

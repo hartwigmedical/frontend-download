@@ -95,7 +95,7 @@ export class DownloadActions {
           if (file.hash !== null) {
             config += `  checksum=md5=${file.hash}\n`;
           }
-          config += `\n`;
+          config += '\n';
         }
       });
     });

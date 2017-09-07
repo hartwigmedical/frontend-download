@@ -17,7 +17,7 @@ import {
   initialLimit: 10
 })
 export class RunsStore {
-  startDate = new Date(`01/01/2016`);
+  startDate = new Date('01/01/2016');
   endDate = new Date();
   today = new Date();
 
