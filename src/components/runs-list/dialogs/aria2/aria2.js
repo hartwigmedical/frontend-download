@@ -72,14 +72,6 @@ function Aria2DialogController($scope, $mdDialog, downloadActions) {
 
     return files;
   };
-
-  $scope.getNumberOfFiles = function() {
-    const files = $scope.getSelectedFiles();
-
-    if (files.length > 0) {
-      return files.length;
-    }
-  };
 }
 
 Aria2DialogController.$inject = ['$scope', '$mdDialog', 'DownloadActions'];

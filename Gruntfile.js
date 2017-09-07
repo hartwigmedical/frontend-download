@@ -153,13 +153,6 @@ module.exports = function (grunt) {
       },
       local: {
         src: ['src/**/*.js']
-      },
-      jenkins: {
-        src: ['src/**/*.js'],
-        options: {
-          format: 'jslint-xml',
-          outputFile: 'reports/eslint-results.xml'
-        }
       }
     },
 
@@ -404,7 +397,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean',
-    'eslint:jenkins',
+    'eslint',
     'less:prod',
     'copy',
     'processhtml:build',
