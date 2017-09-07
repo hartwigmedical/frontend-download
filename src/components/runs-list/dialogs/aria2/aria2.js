@@ -109,7 +109,7 @@ export function aria2SelectedDialog($event, $scope) {
         <md-dialog-content>
           <div class="checkboxes" layout="column">
             <md-checkbox ng-model="selectAll" ng-change="selectAllFileTypes()">All Files</md-checkbox>
-            <md-checkbox ng-repeat="(key, value) in fileTypes"
+            <md-checkbox ng-repeat="(key, value) in fileTypes | orderObject"
                          ng-change="selectFileType(filesTypes[key])"
                          ng-model="fileTypes[key]"
                          aria-label="{{key}}">{{key}}</md-checkbox>

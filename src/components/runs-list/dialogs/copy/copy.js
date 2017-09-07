@@ -99,7 +99,7 @@ export function copySelectedDialog($event, $scope) {
                          ng-disabled="generatingLinks">All Files</md-checkbox>
             <md-checkbox ng-disabled="generatingLinks"
                          ng-change="selectFileType()"
-                         ng-repeat="(key, value) in fileTypes"
+                         ng-repeat="(key, value) in fileTypes | orderObject"
                          ng-model="fileTypes[key]"
                          aria-label="{{key}}">{{key}}</md-checkbox>
           </div>

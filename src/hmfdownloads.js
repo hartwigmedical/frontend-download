@@ -85,6 +85,17 @@ export default class Main {
       };
     });
 
+    appModule.filter('orderObject', function () {
+      return function (object, reverse) {
+        var keys = Object.keys(object || {}).sort();
+        if (reverse) keys.reverse();
+        for (var ordered = {}, i = 0; keys[i]; i++) {
+          ordered[keys[i]] = object[keys[i]];
+        }
+        return ordered;
+      }
+    });
+
     appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
       return {
         responseError (rejection) {
