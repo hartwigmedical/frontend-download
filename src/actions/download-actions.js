@@ -83,7 +83,7 @@ export class DownloadActions {
 
       // Recursively start downloading the files
       // the timeout should prevent the popup blocker from kicking in
-      if (index < files.length - 1)  {
+      if (index < files.length - 1) {
         setTimeout(() => {
           downloadFile(index + 1);
         }, 2000);
