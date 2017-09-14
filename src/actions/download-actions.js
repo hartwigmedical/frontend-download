@@ -78,7 +78,7 @@ export class DownloadActions {
         link.style.display = 'none';
         link.href = file.link;
         link.click();
-        document.removeChild(link);
+        document.body.removeChild(link);
       }
 
       // Recursively start downloading the files
