@@ -69,18 +69,29 @@ export class DownloadActions {
 
   @Action()
   download(files, fileTypes) {
-    files.forEach(file => {
+    function downloadFile(index) {
+      const file = files[index];
+
       if (fileTypes && fileTypes[file.name] || !fileTypes && file.selected) {
-        const iframe = document.createElement('iframe');
-        iframe.src = file.link;
-
-        iframe.onload = () => {
-          document.body.removeChild(iframe);
-        };
-
-        document.body.appendChild(iframe);
+        const link = document.createElement('a');
+        document.body.appendChild(link);
+        link.style.display = 'none';
+        link.href = file.link;
+        link.click();
+        document.removeChild(link);
       }
-    });
+
+      // Recursively start downloading the files
+      // the timeout should prevent the popup blocker from kicking in
+      if (index < files.lenght - 1)  {
+        setTimeout(() => {
+          downloadFile(index + 1);
+        }, 2000);
+      }
+    }
+
+    // Start downloading the files
+    downloadFile(0);
   }
 
   @Action()
@@ -103,13 +114,13 @@ export class DownloadActions {
     const data = new Blob([config], { type: 'text/plain' });
     const textFile = window.URL.createObjectURL(data);
     const link = document.createElement('a');
-
     document.body.appendChild(link);
-    link.style = 'display: none';
+    link.style.display = 'none';
     link.href = textFile;
     link.download = 'aria2.txt';
     link.click();
     window.URL.revokeObjectURL(link);
+    document.body.removeChild(link);
   }
 }
 
