@@ -94,15 +94,20 @@ export class DownloadActions {
     });
 
     const data = new Blob([config], { type: 'text/plain' });
-    const textFile = window.URL.createObjectURL(data);
-    const link = document.createElement('a');
-    document.body.appendChild(link);
-    link.style.display = 'none';
-    link.href = textFile;
-    link.download = 'aria2.txt';
-    link.click();
-    window.URL.revokeObjectURL(link);
-    document.body.removeChild(link);
+
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(data, 'aria2.txt');
+    } else {
+      const textFile = window.URL.createObjectURL(data);
+      const link = document.createElement('a');
+      document.body.appendChild(link);
+      link.style.display = 'none';
+      link.href = textFile;
+      link.download = 'aria2.txt';
+      link.click();
+      window.URL.revokeObjectURL(link);
+      document.body.removeChild(link);
+    }
   }
 }
 
