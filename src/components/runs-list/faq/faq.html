@@ -1,6 +1,6 @@
-<div class="faq-header" ng-if="faq.showFaq">
+<div class="faq-header" ng-if="faq.faqService.showFAQ">
   <div class="container">
-    <md-button class="md-icon-button" ng-click="faq.showFaq = false">
+    <md-button class="md-icon-button" aria-label="Close FAQ" ng-click="faq.faqService.closeFAQ()">
       <md-icon class="mdi mdi-close"></md-icon>
     </md-button>
     <div class="content">
@@ -20,14 +20,14 @@
       <p>Please let us know if you have comments or want to share your portal experience. For more information and contact please visit our <a href="https://www.hartwigmedicalfoundation.nl" target="_blank">website</a>.</p>
 
       <h2>Usage examples</h2>
-      
+
       <p>There are three options to retrieve files. When you use the checkboxes to select one or more datasets/rows these options appear at the top right above the table:</p>
       <ul>
         <li>Download Aria2 Config</li>
         <li>Download Files</li>
         <li>Copy Links</li>
       </ul>
-      
+
       <h3>Example download using aria2:</h3>
       <p>For downloading files using command line we recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. Files are saved to a separate directory per analysis and a md5 checksum is automatically performed for file integrity. Aria2 is also capable of resuming interrupted downloads, you can visit their website to check all options.</p>
       <ul>
@@ -48,7 +48,7 @@
         <li>paste the BAI file link at field "Index URL"</li>
       </ul>
 
-      <md-button class="md-primary md-raised" ng-click="faq.showFaq = false">Close</md-button>
+      <md-button class="md-primary md-raised" aria-label="Close FAQ" ng-click="faq.faqService.closeFAQ()">Close</md-button>
     </div>
   </div>
 </div>

@@ -69,29 +69,13 @@ export class DownloadActions {
 
   @Action()
   download(files, fileTypes) {
-    function downloadFile(index) {
+    for (let i = 0, len = files.length; i < len; i++) {
       const file = files[index];
 
       if (fileTypes && fileTypes[file.name] || !fileTypes && file.selected) {
-        const link = document.createElement('a');
-        document.body.appendChild(link);
-        link.style.display = 'none';
-        link.href = file.link;
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      // Recursively start downloading the files
-      // the timeout should prevent the popup blocker from kicking in
-      if (index < files.length - 1) {
-        setTimeout(() => {
-          downloadFile(index + 1);
-        }, 2000);
+        window.open(file.link);
       }
     }
-
-    // Start downloading the files
-    downloadFile(0);
   }
 
   @Action()

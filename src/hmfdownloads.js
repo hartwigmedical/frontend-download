@@ -67,6 +67,17 @@ export default class Main {
   static initialize(config) {
     const appModule = Main.annotation.module;
 
+    appModule.service('faqService', function() {
+      return {
+        openFAQ: function() {
+          this.showFAQ = true;
+        },
+        closeFAQ: function() {
+          this.showFAQ = false;
+        }
+      }
+    });
+
     appModule.filter('filesize', function() {
       return function(bytes) {
         if (bytes >= 1073741824) {

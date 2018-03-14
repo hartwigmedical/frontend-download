@@ -1,12 +1,13 @@
 import {
   Binding,
-  Component
+  Component,
+  Inject
 } from 'anglue/anglue';
 
 @Component({
   templateUrl: '/src/components/runs-list/faq/faq.html'
 })
 export class FaqComponent {
-  @Binding() showFaq;
+  @Inject('faqService') faqService;
 }
 

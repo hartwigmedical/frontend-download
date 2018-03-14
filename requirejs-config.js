@@ -18,14 +18,12 @@ require.config({
     'angular-touch'        : '../bower_components/angular-touch/angular-touch',
     'angular-ui-router'    : '../bower_components/angular-ui-router/release/angular-ui-router',
     'babel-polyfill'       : '../node_modules/babel-polyfill/browser',
-    'connect-decorators'   : '../bower_components/connect-decorators/dist/amd',
     'jquery'               : '../bower_components/jquery/jquery.min',
     'logger'               : '../bower_components/js-logger/src/logger',
     'luxyflux'             : '../bower_components/luxyflux/dist/amd',
     'moment'               : '../bower_components/moment/moment',
     'clipboard'            : '../bower_components/clipboard/dist/clipboard',
     'ngclipboard'          : '../bower_components/ngclipboard/dist/ngclipboard',
-    'rest-resource'        : '../bower_components/connect-lib/src/rest-resource',
     'underscore'           : '../bower_components/underscore/underscore',
     'vp-pubsub'            : '../bower_components/vp-pubsub/vp-pubsub'
   },
@@ -53,12 +51,6 @@ require.config({
     },
     'ngclipboard': {
       deps: ['angular', 'clipboard']
-    },
-    'rest-resource'        : ['angular']
-  },
-  packages: [{
-    name: 'connect-portal-component',
-    location: '../bower_components/connect-portal-component-v2/src_transpiled',
-    main: 'portal'
-  }]
+    }
+  }
 });

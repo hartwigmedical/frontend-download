@@ -34,9 +34,9 @@ export class RunsListComponent {
   @Inject() disclaimerActions;
   @Inject() $cookies;
   @Inject('logoutEndpoint') logoutEndpoint;
+  @Inject('faqService') faqService;
 
   loadingError = false;
-  showFaq = false;
 
   paginationLimits = [1, 10, 25, 50, 100, 500];
 

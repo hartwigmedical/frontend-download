@@ -1,5 +1,5 @@
 <runs-list>
-  <faq show-faq="runsList.showFaq"></faq>
+  <faq></faq>
   <md-content class="run-list" layout="column" flex>
     <md-toolbar class="md-table-toolbar md-default">
       <div class="md-toolbar-tools">
@@ -10,7 +10,7 @@
             </md-tooltip>
           <md-icon class="mdi mdi-file-document-box"></md-icon>
         </md-button>
-        <md-button class="md-icon-button faq-button" aria-label="FAQ" ng-click="runsList.showFaq = true">
+        <md-button class="md-icon-button faq-button" aria-label="FAQ" ng-click="runsList.faqService.openFAQ()">
             <md-tooltip md-direction="bottom">
               Help
             </md-tooltip>
