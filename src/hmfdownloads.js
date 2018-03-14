@@ -69,10 +69,10 @@ export default class Main {
 
     appModule.service('faqService', function() {
       return {
-        openFAQ () {
+        openFAQ() {
           this.showFAQ = true;
         },
-        closeFAQ () {
+        closeFAQ() {
           this.showFAQ = false;
         }
       };
