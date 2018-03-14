@@ -69,9 +69,7 @@ export class DownloadActions {
 
   @Action()
   download(files, fileTypes) {
-    for (let i = 0, len = files.length; i < len; i++) {
-      const file = files[index];
-
+    for (const file of files) {
       if (fileTypes && fileTypes[file.name] || !fileTypes && file.selected) {
         window.open(file.link);
       }

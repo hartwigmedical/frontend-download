@@ -69,13 +69,13 @@ export default class Main {
 
     appModule.service('faqService', function() {
       return {
-        openFAQ: function() {
+        openFAQ () {
           this.showFAQ = true;
         },
-        closeFAQ: function() {
+        closeFAQ () {
           this.showFAQ = false;
         }
-      }
+      };
     });
 
     appModule.filter('filesize', function() {
