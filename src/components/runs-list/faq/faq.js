@@ -1,5 +1,4 @@
 import {
-  Binding,
   Component,
   Inject
 } from 'anglue/anglue';
