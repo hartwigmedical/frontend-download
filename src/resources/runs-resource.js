@@ -16,10 +16,6 @@ _module.factory('RunsResource', ['$resource', 'apiEndpoint',
         url: `${apiEndpoint}/hmf/v1/portal/detail`,
         method: 'POST',
         isArray: true
-        // transformResponse: response => {
-        //   console.log(response);
-        //   return angular.fromJson(response);
-        // }
       }
     });
 
