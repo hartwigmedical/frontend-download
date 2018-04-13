@@ -63,12 +63,8 @@ module.exports = function (grunt) {
           watchTask: true,
           open: false,
           ui: false,
-          // https: {
-          //   key: 'localhost.schubergphilis.com.key',
-          //   cert: 'localhost.schubergphilis.com.key.crt'
-          // },
           server: {
-            directory: true
+            directory: false
           }
         }
       }

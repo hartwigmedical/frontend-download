@@ -31,13 +31,17 @@ import { DisclaimerComponent } from './components/disclaimer/disclaimer';
 // Application Flux stores
 import { RunsStore } from './stores/runs-store';
 import { DisclaimerStore } from './stores/disclaimer-store';
+import { RunsDetailsStore } from './stores/runs-details-store';
 
 // Application Flux ActionCreators
 import { DownloadActions } from './actions/download-actions';
 import { RunsActions } from './actions/runs-actions';
+import { RunsDetailsActions } from './actions/runs-details-actions';
 import { DisclaimerActions } from './actions/disclaimer-actions';
+import { RestoreActions } from './actions/restore-actions';
 
 @Application({
+  name: 'hmfdownloads',
   routes: configRoutes,
   dependencies: [
     'ngAnimate',
@@ -52,7 +56,9 @@ import { DisclaimerActions } from './actions/disclaimer-actions';
   actions: [
     DownloadActions,
     RunsActions,
-    DisclaimerActions
+    RunsDetailsActions,
+    DisclaimerActions,
+    RestoreActions
   ],
   components: [
     RunsListComponent,
@@ -60,7 +66,8 @@ import { DisclaimerActions } from './actions/disclaimer-actions';
   ],
   stores: [
     RunsStore,
-    DisclaimerStore
+    DisclaimerStore,
+    RunsDetailsStore
   ]
 })
 export default class Main {
@@ -110,6 +117,16 @@ export default class Main {
       };
     });
 
+    appModule.filter('restoreTime', function() {
+      return function (hours) {
+        if (hours <= 24) {
+          return `${hours} hours`;
+        } else {
+          return `${Math.round(hours / 24)} days`;
+        }
+      };
+    })
+
     appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
       return {
         responseError (rejection) {
@@ -147,7 +164,7 @@ export default class Main {
 
 
     angular.element(document).ready(function () {
-      angular.bootstrap(config.appEl, [appModule.name], { strictDi: true });
+      angular.bootstrap(config.appEl, [config.moduleName || 'hmfdownloads'], { strictDi: true });
     });
   }
 }

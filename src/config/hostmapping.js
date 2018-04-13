@@ -1,5 +1,6 @@
 class Hostmapping {
   hostMapping = {
+    '10.0.2.2':                                 'development',
     'localhost':                                'development',
     'localhost.hartwigmedicalfoundation.nl':    'development',
     'portal.acc.hartwigmedicalfoundation.nl':   'acceptance',
@@ -8,7 +9,7 @@ class Hostmapping {
 
   hostConfig = {
     development: {
-      api: 'https://portal.acc.hartwigmedicalfoundation.nl/api',
+      api: 'http://localhost',
       logout: 'https://hmf.oktapreview.com/login/signout'
     },
     acceptance: {

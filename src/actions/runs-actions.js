@@ -14,12 +14,16 @@ import './../resources/runs-resource';
 @SortableActions()
 @PaginatableActions()
 export class RunsActions {
-  @Inject() $q;
   @Inject() runsResource;
 
   @AsyncAction()
   load() {
-    return this.runsResource.query().$promise;
+    return this.runsResource.list().$promise;
+  }
+
+  @AsyncAction()
+  loadDetails(runs) {
+    return this.runsResource.details(runs).$promise;
   }
 }
 
