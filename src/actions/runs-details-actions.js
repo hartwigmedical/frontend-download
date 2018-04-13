@@ -16,6 +16,7 @@ export class RunsDetailsActions {
     return this.runsResource.details(runs).$promise;
   }
 
+  /* eslint-disable no-unused-vars */
   @Action()
   toggleFileType(fileType, checked) {}
 }

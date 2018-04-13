@@ -121,11 +121,11 @@ export default class Main {
       return function (hours) {
         if (hours <= 24) {
           return `${hours} hours`;
-        } else {
-          return `${Math.round(hours / 24)} days`;
         }
+
+        return `${Math.round(hours / 24)} days`;
       };
-    })
+    });
 
     appModule.factory('authInterceptorService', ['$q', '$window', function ($q, $window) {
       return {

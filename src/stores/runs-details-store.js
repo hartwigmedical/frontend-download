@@ -29,7 +29,7 @@ export class RunsDetailsStore {
     this.runDetails = runDetails;
 
     // Determine available file types
-    runDetails.forEach((run) => {
+    runDetails.forEach(run => {
       run.files.forEach(file => {
         if (this.fileTypes[file.name] === undefined) {
           this.fileTypes[file.name] = false;
@@ -83,7 +83,7 @@ export class RunsDetailsStore {
     this.tieredFiles = [];
     this.selectedFiles = [];
 
-    this.runDetails.forEach((run) => {
+    this.runDetails.forEach(run => {
       run.files.forEach(file => {
         if (this.fileTypes[file.name]) {
           file.run_name = run.name;
@@ -115,9 +115,9 @@ export class RunsDetailsStore {
           return -1;
         } else if (fileA.filesize > this.restoreLimit && fileB.filesize < this.restoreLimit) {
           return 1;
-        } else {
-          return 0;
         }
+
+        return 0;
       }
 
       return 0;

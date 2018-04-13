@@ -1,3 +1,6 @@
+import angular from 'angular';
+
+/* eslint-disable max-params */
 const RunsDialogController = [
   '$scope',
   '$mdDialog',
@@ -13,33 +16,37 @@ const RunsDialogController = [
     $scope.runsDetailsStore = runsDetailsStore;
 
     // Load the initially needed data
-    runsDetailsActions.loadDetails(runs.map((x) => { return x.id; }));
+    runsDetailsActions.loadDetails(runs.map(run => {
+      return run.id;
+    }));
     restoreActions.getRestoreLimit();
 
     // Check or uncheck a fileType
     $scope.toggleFileType = (fileType, checked) => {
       runsDetailsActions.toggleFileType(fileType, checked);
-    }
+    };
 
     // Go to the next step in the wizard
     $scope.next = () => {
       $scope.currentPage = $scope.currentPage === 0 && runsDetailsStore.tieredFiles.length > 0 ? 1 : 2;
 
       if ($scope.currentPage === 2 && runsDetailsStore.selectedFiles.length > 0) {
-        downloadActions.generateDownloadLinks(runsDetailsStore.selectedFiles.map(file => { return file.id}));
+        downloadActions.generateDownloadLinks(runsDetailsStore.selectedFiles.map(file => {
+          return file.id;
+        }));
       }
-    }
+    };
 
     // Go to the previous page in the wizard
     $scope.previous = () => {
       $scope.currentPage = $scope.currentPage === 2 && runsDetailsStore.tieredFiles.length > 0 ? 1 : 0;
-    }
+    };
 
     // Check if you can continue to the next step
     $scope.canContinue = () => {
       if ($scope.currentPage === 0) {
-        for (let fileType in runsDetailsStore.fileTypes) {
-          if (runsDetailsStore.fileTypes[fileType] === true)  {
+        for (const fileType in runsDetailsStore.fileTypes) {
+          if (runsDetailsStore.fileTypes[fileType] === true) {
             return true;
           }
         }
@@ -48,7 +55,7 @@ const RunsDialogController = [
       }
 
       return true;
-    }
+    };
 
     // Check whether all files can be restored
     $scope.canRestoreAll = () => {
@@ -58,15 +65,15 @@ const RunsDialogController = [
       runsDetailsStore.tieredFiles.forEach(file => {
         if (file.tier_status === 'COLD') {
           totalRestoreSize += file.filesize;
-          numberOfFiles++;
+          numberOfFiles += 1;
         }
       });
 
       return totalRestoreSize < runsDetailsStore.restoreLimit && numberOfFiles > 1;
-    }
+    };
 
     // Start the restoring of the given file
-    $scope.restore = (file) => {
+    $scope.restore = file => {
       if (file.filesize < runsDetailsStore.restoreLimit) {
         file.restore_loading = true;
         file.restore_error = false;
@@ -82,32 +89,33 @@ const RunsDialogController = [
             file.restore_error = true;
           });
       }
-    }
+    };
 
     $scope.restoreAll = () => {
-      runsDetailsStore.tieredFiles.forEach((file) => {
+      runsDetailsStore.tieredFiles.forEach(file => {
         if (file.tier_status === 'COLD') {
           $scope.restore(file);
         }
       });
-    }
+    };
 
     $scope.generateAria2 = () => {
       downloadActions.generateAria2Config(runsDetailsStore.downloadLinks);
-    }
+    };
 
     $scope.downloadFiles = () => {
       downloadActions.downloadFiles(runsDetailsStore.downloadLinks);
-    }
+    };
   }
 ];
-
+/* eslint-enable max-params */
+/* eslint-disable max-len */
 export function runsDialog($event, selectedRuns) {
   return {
     controller: RunsDialogController,
     clickOutsideToClose: false,
     locals: {
-      selectedRuns: selectedRuns
+      selectedRuns
     },
     parent: angular.element(document.body),
     targetEvent: $event,
@@ -229,5 +237,4 @@ export function runsDialog($event, selectedRuns) {
     `
   };
 }
-
-
+/* eslint-enable max-len */

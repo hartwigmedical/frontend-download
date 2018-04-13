@@ -12,7 +12,7 @@ _module.factory('RestoreResource', ['$resource', 'apiEndpoint',
         method: 'GET',
         responseType: 'text',
         isArray: false,
-        transformResponse: (limit) => {
+        transformResponse: limit => {
           return {
             remaining_bytes: parseInt(limit, 10)
           };
