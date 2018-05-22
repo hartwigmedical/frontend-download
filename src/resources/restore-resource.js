@@ -6,7 +6,7 @@ _module.factory('RestoreResource', ['$resource', 'apiEndpoint',
       restore: {
         method: 'POST',
         isArray: true,
-        transformRequest: function(data, headers) {
+        transformRequest(data) {
           return data.join('|');
         }
       },

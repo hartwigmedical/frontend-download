@@ -78,7 +78,7 @@ const RunsDialogController = [
         file.restore_loading = true;
         file.restore_error = false;
 
-        restoreActions.restoreFiles([file.id])
+        restoreActions.restoreFiles([file.fileid])
           .then(() => {
             restoreActions.getRestoreLimit();
             file.tier_status = 'RESTORE';

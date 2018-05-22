@@ -6,7 +6,7 @@ _module.factory('DownloadResource', ['$resource', 'apiEndpoint',
       download: {
         method: 'POST',
         isArray: true,
-        transformRequest: function(data, headers) {
+        transformRequest(data) {
           return data.join('|');
         }
       }
