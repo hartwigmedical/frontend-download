@@ -5,7 +5,7 @@ _module.factory('RunsResource', ['$resource', 'apiEndpoint',
   function ($resource, apiEndpoint) {
     const Resource = $resource(`${apiEndpoint}/hmf/v1/portal/runs`, {}, {
       list: {
-        url: `${apiEndpoint}/hmf/v1/portal/runs`,
+        url: `${apiEndpoint}/hmf/v1/portal/list`,
         method: 'GET',
         isArray: true,
         transformResponse: response => {
