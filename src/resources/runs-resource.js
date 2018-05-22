@@ -16,7 +16,7 @@ _module.factory('RunsResource', ['$resource', 'apiEndpoint',
         url: `${apiEndpoint}/hmf/v1/portal/detail`,
         method: 'POST',
         isArray: true,
-        transformRequest: function(data, headers) {
+        transformRequest(data) {
           return data.join('|');
         }
       }
