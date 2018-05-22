@@ -59,6 +59,7 @@
   <script src="requirejs-config.js" type="text/javascript"></script>
   <!-- /build -->
 
+  <!-- build:template
   <script type="text/javascript">
     require(['hmfdownloads'], function(app) {
       app.initialize({
@@ -66,5 +67,62 @@
       });
     });
   </script>
+  /build-->
+
+  <!-- build:remove -->
+  <script src="stubs/download.js"></script>
+  <script src="stubs/runs.js"></script>
+  <script src="stubs/runs-details.js"></script>
+  <script src="stubs/restore.js"></script>
+
+  <script type="text/javascript">
+    require(['hmfdownloads', 'angular-mocks'], function(app) {
+
+      var appDev = angular.module('hmfdownloadsDev', ['hmfdownloads', 'ngMockE2E']);
+
+      appDev.config(['$provide', function($provide) {
+        // Build simulate loading times for api calls
+        $provide.decorator('$httpBackend', ['$delegate', function($delegate) {
+          var proxy = function(method, url, data, callback, headers) {
+            var interceptor = function() {
+                var timeout = url.indexOf('/src/') === 0 ? 0 : 800;
+                if (url.indexOf('restore') > -1) {
+                  timeout = 8000;
+                }
+
+
+                var _this = this,
+                    _arguments = arguments;
+                setTimeout(function() {
+                    callback.apply(_this, _arguments);
+                }, timeout);
+            };
+            return $delegate.call(this, method, url, data, interceptor, headers);
+          };
+
+          for(var key in $delegate) {
+              proxy[key] = $delegate[key];
+          }
+          return proxy;
+        }]);
+      }]);
+
+
+      appDev.run(['$httpBackend', function($httpBackend) {
+        $httpBackend.whenGET(/^\/src\//).passThrough();
+        $httpBackend.whenGET('http://localhost/hmf/v1/portal/runs').respond(runsStub);
+        $httpBackend.whenPOST('http://localhost/hmf/v1/portal/detail').respond(runsDetailsStub);
+        $httpBackend.whenPOST('http://localhost/hmf/v1/portal/restore').respond(restoreStub);
+        $httpBackend.whenGET('http://localhost/hmf/v1/portal/restore_limit').respond(restoreLimitStub);
+        $httpBackend.whenPOST('http://localhost/hmf/v1/portal/downloadlink').respond(downloadLinksStub);
+      }]);
+
+      app.initialize({
+        appEl: document.getElementById('region-app'),
+        moduleName: 'hmfdownloadsDev'
+      });
+    });
+  </script>
+  <!-- /build -->
   </body>
 </html>

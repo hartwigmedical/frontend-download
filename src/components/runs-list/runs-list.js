@@ -9,9 +9,10 @@ import {
 } from 'anglue/anglue';
 
 import { FaqComponent } from './faq/faq';
-import { copySelectedDialog } from './dialogs/copy/copy';
-import { downloadSelectedDialog } from './dialogs/download/download';
-import { aria2SelectedDialog } from './dialogs/aria2/aria2';
+// import { copySelectedDialog } from './dialogs/copy/copy';
+// import { downloadSelectedDialog } from './dialogs/download/download';
+// import { aria2SelectedDialog } from './dialogs/aria2/aria2';
+import { runsDialog } from './runs-dialog/runs-dialog';
 
 @Component({
   components: [
@@ -72,16 +73,8 @@ export class RunsListComponent {
     });
   }
 
-  downloadSelected($event) {
-    this.$mdDialog.show(downloadSelectedDialog($event, this.$scope));
-  }
-
-  copySelected($event) {
-    this.$mdDialog.show(copySelectedDialog($event, this.$scope));
-  }
-
-  aria2Selected($event) {
-    this.$mdDialog.show(aria2SelectedDialog($event, this.$scope));
+  checkout($event) {
+    this.$mdDialog.show(runsDialog($event, this.selected));
   }
 }
 

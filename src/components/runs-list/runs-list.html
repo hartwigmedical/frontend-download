@@ -45,9 +45,7 @@
       <div class="multiple-actions" layout="row" layout-align="start center" ng-if="runsList.selected.length > 0">
         <span>Selected: {{runsList.selected.length}} runs</span>
         <div flex></div>
-        <md-button ng-click="runsList.aria2Selected($event)">Download aria2 config</md-button>
-        <md-button ng-click="runsList.downloadSelected($event)">Download files</md-button>
-        <md-button ng-click="runsList.copySelected($event)">Copy links</md-button>
+        <md-button ng-click="runsList.checkout($event)">Checkout runs</md-button>
       </div>
       <table md-table
              md-row-select
@@ -67,7 +65,6 @@
         <tbody md-body>
           <tr md-row md-select="run"
               md-select-id="run"
-              ng-disabled="!run.files || run.files.length === 0"
               ng-repeat="run in runsList.runsStore.items">
             <td md-cell>{{run.name}}</td>
             <td md-cell>{{run.pipeline}}</td>
