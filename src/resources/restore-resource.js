@@ -5,7 +5,10 @@ _module.factory('RestoreResource', ['$resource', 'apiEndpoint',
     const Resource = $resource(`${apiEndpoint}/hmf/v1/portal/restore`, {}, {
       restore: {
         method: 'POST',
-        isArray: true
+        isArray: true,
+        transformRequest: function(data, headers) {
+          return data.join('|');
+        }
       },
       limit: {
         url: `${apiEndpoint}/hmf/v1/portal/restore_limit`,
