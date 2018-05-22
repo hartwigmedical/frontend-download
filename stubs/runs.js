@@ -2,7 +2,7 @@ var runsStub = [
   {
     "status": "Validated",
     "pipeline": "v3.0",
-    "name": "171026_HMFreg0175_FR11471080-A01_CF-DH10",
+    "name": "171026_HMFtest_AA11110000-A001",
     "ini_name": "FastQ.ini",
     "createTime": "2017-11-06T14:06:33",
     "id": 123
