@@ -110,7 +110,7 @@
 
       appDev.run(['$httpBackend', function($httpBackend) {
         $httpBackend.whenGET(/^\/src\//).passThrough();
-        $httpBackend.whenGET('http://localhost/hmf/v1/portal/runs').respond(runsStub);
+        $httpBackend.whenGET('http://localhost/hmf/v1/portal/list').respond(runsStub);
         $httpBackend.whenPOST('http://localhost/hmf/v1/portal/detail').respond(runsDetailsStub);
         $httpBackend.whenPOST('http://localhost/hmf/v1/portal/restore').respond(restoreStub);
         $httpBackend.whenGET('http://localhost/hmf/v1/portal/restore_limit').respond(restoreLimitStub);
