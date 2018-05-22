@@ -5,7 +5,10 @@ _module.factory('DownloadResource', ['$resource', 'apiEndpoint',
     const Resource = $resource(`${apiEndpoint}/hmf/v1/portal/downloadlink`, {}, {
       download: {
         method: 'POST',
-        isArray: true
+        isArray: true,
+        transformRequest: function(data, headers) {
+          return data.join('|');
+        }
       }
     });
 
