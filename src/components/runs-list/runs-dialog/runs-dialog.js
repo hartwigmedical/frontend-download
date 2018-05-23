@@ -32,7 +32,7 @@ const RunsDialogController = [
 
       if ($scope.currentPage === 2 && runsDetailsStore.selectedFiles.length > 0) {
         downloadActions.generateDownloadLinks(runsDetailsStore.selectedFiles.map(file => {
-          return file.id;
+          return file.fileid;
         }));
       }
     };
