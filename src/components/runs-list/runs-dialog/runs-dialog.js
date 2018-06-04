@@ -166,11 +166,9 @@ export function runsDialog($event, selectedRuns) {
             </div>
             <div class="step availability-step" ng-if="currentPage === 1">
               <p>The file(s) listed below are currently not directly available. If you wish to have access to them
-              you can start a recovery process which will take some time. After starting a recovery you can come back
-              later to retrieve these files.</p>
-
-              <p>In case of insufficient capacity, we currently don't have the capacity to restore this file.
-              If you really need it please contact Hartwig.</p>
+              you can start a recovery process which will take time. A retrieval time estimation is given per file.
+              After starting a recovery you can come back later to retrieve these files. The recovered files will be
+              available for 7 days after requesting the recovery.</p>
 
               <p class="warn">Any actions you undertake on the next screen will NOT include these files.</p>
 
