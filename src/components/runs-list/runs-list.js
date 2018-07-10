@@ -39,7 +39,7 @@ export class RunsListComponent {
 
   loadingError = false;
 
-  paginationLimits = [1, 10, 25, 50, 100, 500];
+  paginationLimits = [1, 10, 25, 50, 100];
 
   // Multi select
   selected = [];
@@ -51,14 +51,6 @@ export class RunsListComponent {
     this.runsActions.load()
       .catch(() => {
         this.loadingError = true;
-      })
-      .finally(() => {
-        this.paginationLimits.push({
-          label: 'All',
-          value: () => {
-            return this.runsStore.paginationState.total;
-          }
-        });
       });
   }
 
