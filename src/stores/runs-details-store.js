@@ -65,7 +65,19 @@ export class RunsDetailsStore {
     this.generatingLinks = false;
     this.downloadLinks = files;
 
+    // Enrich the files with the run name
     files.forEach(file => {
+      // Find the run the file is related to and add the run name and run id to it
+      // needed for the aria2 config dir property
+      const run = this.runDetails.find(runDetails => {
+        return runDetails.files.find(runFile => {
+          return runFile.id === file.id;
+        });
+      });
+
+      file.run_name = run.name;
+      file.run_id = run.id;
+
       this.downloadLinksString += `\n\n${file.fileURL}`;
     });
 
