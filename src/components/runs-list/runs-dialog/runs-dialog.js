@@ -168,7 +168,7 @@ export function runsDialog($event, selectedRuns) {
               <p>The file(s) listed below are currently not directly available. If you wish to have access to them
               you can start a recovery process which will take time. A retrieval time estimation is given per file.
               After starting a recovery you can come back later to retrieve these files. The recovered files will be
-              available for 7 days after requesting the recovery.</p>
+              available for 14 days after requesting the recovery.</p>
 
               <p class="warn">Any actions you undertake on the next screen will NOT include these files.</p>
 
