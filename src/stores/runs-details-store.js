@@ -71,7 +71,7 @@ export class RunsDetailsStore {
       // needed for the aria2 config dir property
       const run = this.runDetails.find(runDetails => {
         return runDetails.files.find(runFile => {
-          return runFile.id === file.id;
+          return runFile.fileid === file.fileid;
         });
       });
 
