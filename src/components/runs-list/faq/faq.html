@@ -6,46 +6,44 @@
     <div class="content">
       <h2>Hartwig Medical Foundation Download Portal</h2>
 
-      <p>This portal allows viewing and download of generated data. For each sample/patient certain files can be downloaded by creating https links. These links are only valid during a limited period for security reasons and can be used to download (via browser or command line tools) or, in the case of indexed files like the BAM format, directly read (streamed) by software like IGV (Integrative Genome Browser).</p>
+      <p>Files can be downloaded by creating https URLs, valid during a limited period for security reasons. These URLs can be used to download (via browser or command line tools) or, in the case of indexed files like the BAM format, directly read (streamed) by software like IGV (Integrative Genome Browser).</p>
 
-      <h3>Details</h3>
+      <h3>Notes</h3>
       <ul>
-        <li>Files can be very large (up to 300GB) so please be aware when selecting multiple sets!</li>
-        <li>Session time is 4 hours, after this period you will have to login again</li>
-        <li>Links are valid for 7 days, after this period you will have to re-create the links</li>
-        <li>This portal contains "molecular" data, no clinical information (for data requests that require clinical information please see our <a href="https://www.hartwigmedicalfoundation.nl/databeleid/" target="_blank">Data Policy</a>)</li>
-        <li>Examples of available data formats are BAM, gVCF and VCF</li>
-        <li>See below for some usage examples</li>
+        <li>Files are potentially large (up to 300GB) so please be aware when selecting multiple!</li>
+        <li>Session time is 4 hours, after this period you will have to login again.</li>
+        <li>The URLs are valid for 7 days, after this period you will have to re-create URLs.</li>
+        <li>This portal contains molecular data only, no clinical information (for data requests that require clinical information please see our <a href="https://www.hartwigmedicalfoundation.nl/en/data-policy/" target="_blank">Data Policy</a>)</li>
       </ul>
       <p>Please let us know if you have comments or want to share your portal experience. For more information and contact please visit our <a href="https://www.hartwigmedicalfoundation.nl" target="_blank">website</a>.</p>
 
       <h2>Usage examples</h2>
 
-      <p>There are three options to retrieve files. When you use the checkboxes to select one or more datasets/rows these options appear at the top right above the table:</p>
+      <p>There are three options to obtain files. When you select one or more datasets/rows (by checking the checkboxes), a button "Checkout Runs" pops up at the top right above the table. Then you can select file-types and press next to get the following options:</p>
       <ul>
-        <li>Download Aria2 Config</li>
-        <li>Download Files</li>
-        <li>Copy Links</li>
+        <li>Download Aria2 Config (for downloading with Aria2, recommended)</li>
+        <li>Download Files (for downloading from browser directly)</li>
+        <li>Copy links to clipboard (for using URLs in any tool that handles https).</li>
       </ul>
 
       <h3>Example download using aria2:</h3>
-      <p>For downloading files using command line we recommend to use the <a href="https://aria2.github.io" target="_blank">aria2 download tool</a>. Files are saved to a separate directory per analysis and a md5 checksum is automatically performed for file integrity. Aria2 is also capable of resuming interrupted downloads, you can visit their website to check all options.</p>
+      <p>We recommend to use <a href="https://aria2.github.io" target="_blank">aria2</a> for downloading. The files are then automatically saved to a separate directory per dataset and an md5 checksum is automatically performed for file integrity. Aria2 is also capable of resuming interrupted downloads, any many more options are described at their website.</p>
       <ul>
-        <li>download the config file (use the "Download Aria2 Config" option)</li>
-        <li>and start a download with the following code:</li>
+        <li>Download the config file (use the "Download Aria2 Config" option)</li>
+        <li>Start a download with for example the following code:</li>
       </ul>
       <code>aria2c -x 5 -c -i aria2.txt</code>
-      <p>The "-x 5" option means 5 downloads will be started simultaneously, "-c" allows aria2 to resume a stopped download and "-i" is to provide the input file with links.</p>
+      <p>The "-x 5" option means 5 downloads will be started simultaneously, "-c" allows aria2 to resume a stopped download and "-i" is to provide the input file with URLs. The resulting log provides a summary of download and file integrity check results.</p>
 
       <h3>Example download using browser:</h3>
-      <p>Use the option "Download files" to directly start a download in your browser, for example to quickly view a pdf or other small file.</p>
+      <p>Use the option "Download files" to directly start a download in your browser, this is not recommended for large files.</p>
 
       <h3>Example loading BAM file in IGV:</h3>
       <ul>
-        <li>create links for BAM and accompanying BAI file (use the "Copy Links" option)</li>
-        <li>open the IGV program and choose option "Load from URL"</li>
-        <li>paste the BAM file link at field "File URL"</li>
-        <li>paste the BAI file link at field "Index URL"</li>
+        <li>Create URLs for BAM and BAI file (option "Copy Links")</li>
+        <li>Open IGV and choose option "Load from URL"</li>
+        <li>Paste the BAM file link at field "File URL"</li>
+        <li>Paste the BAI file link at field "Index URL"</li>
       </ul>
 
       <md-button class="md-primary md-raised" aria-label="Close FAQ" ng-click="faq.faqService.closeFAQ()">Close</md-button>
